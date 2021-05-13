@@ -3,30 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnSpider : MonoBehaviour {
-	public float animationSpriderTime = 2f;
+	public float animationSpriderTime = 5f;
 	public GameObject spider;
 	public GameObject allSpiders;
+	GameObject spiderprefab;
 
 	void Start () {
+		
 		StartCoroutine (Spawn ());
+
 	}
+	/*void Update(){
+		if (spiderprefab != null && spiderprefab.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).normalizedTime == 1.0f) {
+			Destroy (spiderprefab);	
+			spiderprefab = null;
+			print("pauk destroy");
+		}
+	}*/
 
 	IEnumerator Spawn(){
-		GameObject spiderprefab = null;
+		//spiderprefab = null;
 		while (true) {
 			
-			if (spiderprefab != null) {
+			/*if (spiderprefab != null) {
+				Destroy (spiderprefab);	
+			}*/
+
+			float isSpider = Random.Range (1f, 6f);
+			if (spiderprefab != null >= 3f) {
 				Destroy (spiderprefab);	
 			}
-			float isSpider = Random.Range (1f, 6f);
-			if (isSpider <= 3f) {		
-			spiderprefab = Instantiate (spider, new Vector2 (Random.Range (7.8f, 15f), 8f), Quaternion.Euler(0f, 0f, -90f));
+			else if (spiderprefab == null && isSpider >= 3f) {
+				Destroy (spiderprefab);	
+				spiderprefab = Instantiate (spider, new Vector2 (Random.Range (-5.7f, 5.7f), 4f), Quaternion.Euler (0f, 0f, 0f));
 				spiderprefab.transform.parent = allSpiders.transform;
 
-			}
+			} 
 			print (isSpider);
 			yield return new WaitForSeconds (animationSpriderTime);
 		}
+	}
+	void DestroySpider(){
+		Destroy (spiderprefab);
 	}
 
 }

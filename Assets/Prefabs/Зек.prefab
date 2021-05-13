@@ -36,15 +36,15 @@ GameObject:
   m_Component:
   - component: {fileID: 4702746837825876}
   - component: {fileID: 212205599702231358}
+  - component: {fileID: 61487406610277200}
   - component: {fileID: 61556250367266660}
   - component: {fileID: 114814202566870048}
   - component: {fileID: 114882924762364604}
-  - component: {fileID: 111471342273380628}
   - component: {fileID: 82172003351707586}
-  - component: {fileID: 61487406610277200}
+  - component: {fileID: 95587051008432200}
   m_Layer: 0
   m_Name: "\u0417\u0435\u043A"
-  m_TagString: Untagged
+  m_TagString: zek
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,8 +56,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1548265311855280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 2.4463797, y: -1.2704546, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4854898648050470}
   m_Father: {fileID: 0}
@@ -88,7 +88,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.36, y: -0.78}
+  m_Offset: {x: -0.8, y: -1.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -99,7 +99,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.83, y: 2}
+  m_Size: {x: 0.3, y: 0.5}
   m_EdgeRadius: 0
 --- !u!61 &61556250367266660
 BoxCollider2D:
@@ -136,7 +136,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -206,21 +206,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!111 &111471342273380628
-Animation:
+--- !u!95 &95587051008432200
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1548265311855280}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 6eee4e1affafec943a42509985006024, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 6eee4e1affafec943a42509985006024, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 718b06531e5fc5f478e6ceb9c3d536a6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114814202566870048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,9 +234,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd5476853cc31d46b07b6a052438c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarScale: 0
+  healthBarScaleUnit: 0
+  enemiesLeftBarScale: 0
+  isDie: 0
+  ballDamage: 0
+  dinamitDamage: 0
+  hp: 100
   healthBar: {fileID: 1083992471187664}
   shoot: {fileID: 8300000, guid: b3defb5b4ced7cd468dcf75ebe3431cb, type: 3}
   scream: {fileID: 8300000, guid: dccbb8c94dbe366408b5fc5f04971c75, type: 3}
+  enemiesLeftBar: {fileID: 1083992471187664}
 --- !u!114 &114882924762364604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,7 +256,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1610225604e1cd34480819d3c849a091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 1e54c2b3949908b47917ee5ac6725d03, type: 3}
+  - {fileID: 8300000, guid: 368bec35d097c4f41829020719c3befc, type: 3}
+  walk: 1
+  destination: 0
+  rowOfZek: 0
+  flagStop: 0
+  appleStop: 0
+  naruchnikiStop: 0
+  svistStop: 0
   speed: 0.2
+  zeklazier: 0
+  zekKick: {fileID: 0}
+  watchers: []
+  gameState: {fileID: 0}
 --- !u!212 &212205599702231358
 SpriteRenderer:
   m_ObjectHideFlags: 1

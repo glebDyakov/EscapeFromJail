@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 
 public class GrabCoins : MonoBehaviour {
-	static int w = 0;
+	static public int w = 0;
+
+
 
 	void OnMouseDown () {
 		//gameObject.SetActive (gameObject);
 		Text  q = GetComponentInParent(typeof(Text)) as Text;
-		w+=1;
+		w += 1;
 		q.text = "Coins: " + w.ToString();
 		PlayerPrefs.SetInt ("TextCoinsInLevel", w);
 		gameObject.GetComponent<Renderer>().enabled = false;

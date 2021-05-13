@@ -6,8 +6,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{AFE7B83E-391C-5830-E608-499EC21FF46D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -38,64 +39,82 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:\Program Files\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AddCoins.cs" />
-    <Compile Include="Assets\Scripts\ChangeSound.cs" />
-    <Compile Include="Assets\Scripts\Chpok.cs" />
-    <Compile Include="Assets\Scripts\DefaultSettings.cs" />
-    <Compile Include="Assets\Scripts\GetAllCoins.cs" />
-    <Compile Include="Assets\Scripts\GoToHome.cs" />
-    <Compile Include="Assets\Scripts\GoToSettings.cs" />
-    <Compile Include="Assets\Scripts\GoToShop.cs" />
-    <Compile Include="Assets\Scripts\GrabCoins.cs" />
-    <Compile Include="Assets\Scripts\GrabeSpider.cs" />
-    <Compile Include="Assets\Scripts\KillZek.cs" />
-    <Compile Include="Assets\Scripts\LetsPlay.cs" />
-    <Compile Include="Assets\Scripts\MoveZek.cs" />
-    <Compile Include="Assets\Scripts\MyScript.cs" />
-    <Compile Include="Assets\Scripts\PlayBackgroundSound.cs" />
-    <Compile Include="Assets\Scripts\ReceiveDamageFromKickZek.cs" />
-    <Compile Include="Assets\Scripts\RedrawBarOfEnemiesLeft.cs" />
-    <Compile Include="Assets\Scripts\SetCountOfAmmo.cs" />
-    <Compile Include="Assets\Scripts\ShotBullet.cs" />
-    <Compile Include="Assets\Scripts\ShowListOfLevels.cs" />
-    <Compile Include="Assets\Scripts\SpawnCoin.cs" />
-    <Compile Include="Assets\Scripts\SpawnSpider.cs" />
-    <Compile Include="Assets\Scripts\SpawnZek.cs" />
-    <Compile Include="Assets\Scripts\UpdateTextCustomComponent.cs" />
-    <Compile Include="Assets\Scripts\UseAttack.cs" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\TestRunner\UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\TestRunner\net35\unity-custom\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Timeline">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\Timeline\RuntimeEditor\UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\UnityHoloLens\RuntimeEditor\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
+     <Compile Include="Assets\Animations\OhranikAnimator.cs" />
+     <Compile Include="Assets\Scripts\AddCoins.cs" />
+     <Compile Include="Assets\Scripts\ButtonsClick.cs" />
+     <Compile Include="Assets\Scripts\BuyElixir.cs" />
+     <Compile Include="Assets\Scripts\BuyProduct.cs" />
+     <Compile Include="Assets\Scripts\ChangeSound.cs" />
+     <Compile Include="Assets\Scripts\ChargeBattery.cs" />
+     <Compile Include="Assets\Scripts\Chpok.cs" />
+     <Compile Include="Assets\Scripts\CloseWindowOfUnavailableLevel.cs" />
+     <Compile Include="Assets\Scripts\DefaultSettings.cs" />
+     <Compile Include="Assets\Scripts\GameState.cs" />
+     <Compile Include="Assets\Scripts\GetAllCoins.cs" />
+     <Compile Include="Assets\Scripts\GoToHome.cs" />
+     <Compile Include="Assets\Scripts\GoToSettings.cs" />
+     <Compile Include="Assets\Scripts\GoToShop.cs" />
+     <Compile Include="Assets\Scripts\GrabCoins.cs" />
+     <Compile Include="Assets\Scripts\GrabeSpider.cs" />
+     <Compile Include="Assets\Scripts\KillZek.cs" />
+     <Compile Include="Assets\Scripts\LetsPlay.cs" />
+     <Compile Include="Assets\Scripts\MoveBullet.cs" />
+     <Compile Include="Assets\Scripts\MoveByLevelList.cs" />
+     <Compile Include="Assets\Scripts\MoveZek.cs" />
+     <Compile Include="Assets\Scripts\MyScript.cs" />
+     <Compile Include="Assets\Scripts\PlayBackgroundSound.cs" />
+     <Compile Include="Assets\Scripts\ReceiveDamageFromKickZek.cs" />
+     <Compile Include="Assets\Scripts\RedrawBarOfEnemiesLeft.cs" />
+     <Compile Include="Assets\Scripts\RepairLife.cs" />
+     <Compile Include="Assets\Scripts\SelectWeapon.cs" />
+     <Compile Include="Assets\Scripts\SetCountOfAmmo.cs" />
+     <Compile Include="Assets\Scripts\ShotBullet.cs" />
+     <Compile Include="Assets\Scripts\ShotTrapTab.cs" />
+     <Compile Include="Assets\Scripts\ShowElixirBuyWindow.cs" />
+     <Compile Include="Assets\Scripts\ShowHelp.cs" />
+     <Compile Include="Assets\Scripts\ShowListOfLevels.cs" />
+     <Compile Include="Assets\Scripts\SpawnCoin.cs" />
+     <Compile Include="Assets\Scripts\SpawnSpider.cs" />
+     <Compile Include="Assets\Scripts\SpawnZek.cs" />
+     <Compile Include="Assets\Scripts\StartThiLevel.cs" />
+     <Compile Include="Assets\Scripts\ToNextWeapon.cs" />
+     <Compile Include="Assets\Scripts\UpdateTextCustomComponent.cs" />
+     <Compile Include="Assets\Scripts\UseAttack.cs" />
+     <Compile Include="Assets\Scripts\UseTrap.cs" />
+     <None Include="Assets\Sprites\анимация.txt" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Timeline">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -105,4 +124,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>

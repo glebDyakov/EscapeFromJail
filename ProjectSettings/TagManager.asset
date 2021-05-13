@@ -7,6 +7,9 @@ TagManager:
   - Bullet
   - EnemiesLeft
   - TextCoinsTag
+  - zek
+  - GameState
+  - RepairLife
   layers:
   - Default
   - TransparentFX
@@ -43,4 +46,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: RowOne
+    uniqueID: 724188459
+    locked: 0
+  - name: RowTwo
+    uniqueID: 3765139603
+    locked: 0
+  - name: RowThree
+    uniqueID: 2566805817
+    locked: 0
+  - name: RepairLife
+    uniqueID: 2412311529
     locked: 0

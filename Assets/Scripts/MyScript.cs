@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RedrawBarOfEnemiesLeft))]
-[RequireComponent(typeof(SetCountOfAmmo))]
 public class MyScript : MonoBehaviour {
 	public float speed = 20f;
 	public AudioClip shoot;
