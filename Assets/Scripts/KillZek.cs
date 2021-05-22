@@ -20,37 +20,39 @@ public class KillZek : MonoBehaviour {
 	public float hp = 100f;
 	float damage = 20f;
 	public GameObject healthBar;
-	Animator anima;
+	public Animator anima;
 	public AudioClip shoot;
 	public AudioClip scream;
 	public GameObject enemiesLeftBar;
-	//public AddCoins addCoins = new AddCoins();
-	// Use this for initialization
-	/*
-	void OnCollisionEnter2D (Collision2D other) {
-		//if (other.gameObject.tag == "Bullet") {
-		Destroy (this.gameObject, 1f);
-		//}
-	}
-	*/
+	public GameObject EnemyCop;
+
 	void Start(){
+		healthBar = transform.GetChild (0).GetChild (0).gameObject;
+		enemiesLeftBar= transform.GetChild (0).GetChild (0).gameObject;
 		healthBarScale = healthBar.transform.localScale.x;
 		healthBarScaleUnit = healthBarScale / 100f;
 		enemiesLeftBarScale = enemiesLeftBar.transform.localScale.x;
 		anima = GetComponent <Animator>();
 	}
 
-	void PreDie (){
+	void Update(){
+		if(!EnemyCop && GetComponent<MoveZek>().walk==false){
+			GetComponent<MoveZek>().walk=true;
+			anima.Play("Z_R");
+		}
+	}
+
+	public void PreDie (){
 		
 		if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
 			AudioSource audioShoot = GetComponent<AudioSource> ();
 			audioShoot.clip = shoot;
-			audioShoot.Play ();
+			audioShoot.Play();
 		}
 		if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
 			AudioSource audioShoot = GetComponent<AudioSource> ();
 			audioShoot.clip = scream;
-			audioShoot.Play ();
+			audioShoot.Play();
 		}
 		if (hp > 0f) {
 			if (!dinamitDamage || !ballDamage) {
@@ -68,19 +70,28 @@ public class KillZek : MonoBehaviour {
 				
 			}
 		} else {
+			
+			bool allZeksKilled = false;
+
 			if (!isDie) {
 				isDie = true;
 				anima.Play("Z_D");
-				RedrawBarOfEnemiesLeft.Redraw ();
+				allZeksKilled = RedrawBarOfEnemiesLeft.Redraw ();
+				GameObject.Find("All Coins").GetComponent<SpawnCoin>().RulkaCoin(gameObject);
 			}
 			//Destroy (this.gameObject, 1f);
 
-			/*
-			bool allZeksKilled = RedrawBarOfEnemiesLeft.Redraw ();
+
+			//bool allZeksKilled = RedrawBarOfEnemiesLeft.Redraw ();
 			if(allZeksKilled){
+				if(transform.parent.GetComponent<SpawnZek>().Wave==0){
 				SceneManager.LoadScene ("Menu");
+				}else{
+					transform.parent.GetComponent<SpawnZek> ().Wave++;
+					StartCoroutine (transform.parent.GetComponent<SpawnZek>().Spawn ());
+				}
 			}
-			*/
+
 		}
 
 		print("уничтожен из за нажатия мыши");
@@ -113,7 +124,7 @@ public class KillZek : MonoBehaviour {
 	}
 	*/
 
-	void OnTriggerEnter2D (Collider2D other) {
+	public void OnTriggerEnter2D (Collider2D other/*, bool bita=false*/) {
 		/*
 		if (other.gameObject.name.Contains("dinamit")) {
 			dinamitDamage = true;
@@ -129,14 +140,19 @@ public class KillZek : MonoBehaviour {
 		} 
 		*/
 
-		if (other.gameObject.tag == "Bullet") {
+		if (other.gameObject.tag == "Bullet" /*|| bita*/) {
+			/*if(!bita){*/
 			Destroy (other.gameObject);
-			//hp -= 20f;
+			//}
+			transform.GetChild(0).gameObject.SetActive(true);
+			Invoke("ActiveHealth",2);
 			PreDie ();
 		} else if (other.gameObject.tag.Contains ("Player") && GetComponent<MoveZek>().rowOfZek == other.GetComponent<ReceiveDamageFromKickZek>().rowOfWatcher) {
 			//меняем флаг на то что зек стопорится
-			//DANGER GetComponent<MoveZek>().walk=false;
-			PreDie ();
+			EnemyCop=other.gameObject;
+			anima.Play("Z_A");
+			GetComponent<MoveZek>().walk=false;
+			//PreDie ();
 		}
 	}
 
@@ -161,12 +177,28 @@ public class KillZek : MonoBehaviour {
 			print ("ballMeAttack");
 		} else if (other.gameObject.tag.Contains ("Player")) {
 			//меняем флаг на бег разрешен
-			//DANGER GetComponent<MoveZek>().walk=true;
+			GetComponent<MoveZek>().walk=true;
 			anima.Play("Z_R");
 		}
+	}
+
+	void ActiveHealth(){
+		transform.GetChild (0).gameObject.SetActive (false);
 	}
 	public void Die(){
 		Destroy (this.gameObject, 1f);
 	}
 
+	public void ZeckAttack(){
+		if(EnemyCop){
+		ReceiveDamageFromKickZek cop=EnemyCop.GetComponent<ReceiveDamageFromKickZek>();
+			cop.OnTriggerEnter2D(gameObject.GetComponent<Collider2D>());
+		//EnemyCop.GetComponent<Animator>().Play("O_dub-1");
+			//cop.healthBar.transform.localScale = new Vector2 (cop.healthBar.transform.localScale.x - cop.healthBarScale / 3f, cop.healthBar.transform.localScale.y);
+		}
+		/*else if(!EnemyCop){
+			GetComponent<MoveZek>().walk=true;
+			anima.Play("Z_R");
+		}*/
+	}
 }

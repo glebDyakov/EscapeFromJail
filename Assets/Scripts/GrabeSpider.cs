@@ -25,7 +25,7 @@ public class GrabeSpider : MonoBehaviour {
 		//GUICountOfCoins.text = "Coins: " + coinsInLevel.ToString();
 		//PlayerPrefs.SetInt ("TextCoinsInLevel", coinsInLevel);
 
-		GrabCoins.w += 1;
+		GrabCoins.w += 5;
 		GUICountOfCoins.text = "Coins: " + GrabCoins.w.ToString();
 		PlayerPrefs.SetInt ("TextCoinsInLevel", GrabCoins.w);
 		anim.enabled = false;

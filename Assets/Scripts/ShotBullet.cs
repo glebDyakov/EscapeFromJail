@@ -19,6 +19,7 @@ public class ShotBullet : MonoBehaviour {
 	float startTime;
 	SetCountOfAmmo ammoInst;
 	GameObject bulletInst;
+	bool reload=false;
 	void Awake(){
 		ammoInst = new SetCountOfAmmo ();
 
@@ -26,8 +27,15 @@ public class ShotBullet : MonoBehaviour {
 
 
 
-	void OnMouseUp () {
-		if (setCountOfAmmoInt.GetComponent<SetCountOfAmmo> ().bullets.Count >= 1) {
+	public void OnMouseUp () {
+		if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count == 0){
+			anim.Play ("O_p-2");
+			//DANGER Invoke ("ShowAmmo", 5f);
+		}
+		if (setCountOfAmmoInt.GetComponent<SetCountOfAmmo> ().bullets.Count >= 1
+			//&& anim.gameObject.GetComponent<ReceiveDamageFromKickZek>().reload
+	) {
+			anim.gameObject.GetComponent<ReceiveDamageFromKickZek>().reload = false;
 			//ammoInst.bullets[ammoInst.bullets.Count - 1].GetComponent<Renderer>().enabled = false;
 
 
@@ -89,19 +97,17 @@ public class ShotBullet : MonoBehaviour {
 
 			//point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
 			//float xPos = Camera.main.ScreenToWorldPoint(5f,5f,1f);
+
 			anim.Play("O_p-1");
-			//anim.SetInteger("anim", 1);
-
-
-
 
 			//bulletInst = Instantiate (bullet, new Vector2 (-1.76749f, -2.102378f), Quaternion.identity) as GameObject;
 
 			//bulletInst = Instantiate (bullet, Camera.main.ScreenToWorldPoint(new Vector2 (posX,posY)), Quaternion.identity) as GameObject;
 
-			if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count < 2){
+			if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count <= 2){
 				bulletInst = Instantiate (bullet, new Vector2(-8f, -2.5f), Quaternion.identity) as GameObject;
 			}
+
 
 			//bulletInst.GetComponent<Rigidbody2D>().MovePosition ();
 			//Destroy (bulletInst, 5f);
@@ -120,11 +126,13 @@ public class ShotBullet : MonoBehaviour {
 
 		print (Camera.main.ScreenToWorldPoint(Input.mousePosition));
 		*/
-			Invoke ("ShowAmmo", 5f);
+			//DANGER Invoke ("ShowAmmo", 5f);
+			//anim.Play("O_p-2");
 		}
 	}
 
 	public void ShowAmmo(){
+		//reload = true;
 		//anim.Play("O_p-2");
 		/*
 		for (int ammo = setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count; ammo < 2; ammo++) {
@@ -135,32 +143,42 @@ public class ShotBullet : MonoBehaviour {
 			print ("CountAmmo " + PlayerPrefs.GetInt("CountAmmo"));
 		}
 		*/
+		if(anim.GetCurrentAnimatorStateInfo(0).IsName("O_p-2")){
 		int ammo = setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count;
-		if(ammo < 2){
+		if(ammo <= 2){
 			GameObject ammoOne = Instantiate (ammoPrefab, new Vector2(-12f + ammo, 5f), Quaternion.Euler(0f, 0f, 50f));
 			ammoOne.transform.parent = allAmmos.transform;
 			setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Add (ammoOne);
 			PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt("CountAmmo" + 1));
 			//Invoke ("ShowAmmo", 5f);
+			//anim.Play("O_p-2");
 		}
 
-		anim.Play("O_p-0");
-
+		if(ammo>=2){
+			anim.Play("O_p-0");
+		}
 		
 		//print (allAmmos.transform.GetChild(allAmmos.transform.childCount - 1));
+		}
 	}
 
-	/*
+
 	void Update(){
-		if(bulletInst){
+		if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count>=2/* && reload*/){
+			//reload = false;
+			if(anim && anim.GetCurrentAnimatorStateInfo(0).IsName("O_p-2")){
+			anim.Play("O_p-0");
+			}
+		}
+		/*if(bulletInst){
 			bulletInst.transform.position=Vector2.MoveTowards(new Vector2(bulletInst.transform.position.x, bulletInst.transform.position.y), new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition)[0], Camera.main.ScreenToWorldPoint(Input.mousePosition)[1]), speed * Time.deltaTime);
 			//bulletInst.transform.position=Vector2.MoveTowards(new Vector2(bulletInst.transform.position.x, bulletInst.transform.position.y), new Vector2(Input.mousePosition[0], Input.mousePosition[1]), speed * Time.deltaTime);
 			if(bulletInst.transform.position==Input.mousePosition){
 				Destroy (bulletInst.gameObject, 1f);
 			}
-		}
+		}*/
 
 	}
-*/
+
 
 }

@@ -8,6 +8,21 @@ public class DefaultSettings : MonoBehaviour {
 		if (!PlayerPrefs.HasKey ("AudioOn")) {
 			PlayerPrefs.SetString ("AudioOn", "Yes");
 		}
+		if (!PlayerPrefs.HasKey ("CountAmmo")) {
+			PlayerPrefs.SetInt ("CountAmmo", 1);
+		}
+		if (!PlayerPrefs.HasKey ("ForceOfNaruchniki")) {
+			PlayerPrefs.SetFloat ("ForceOfNaruchniki", 0.2f);
+		}
+		if (!PlayerPrefs.HasKey ("ForceOfSvist")) {
+			PlayerPrefs.SetFloat ("ForceOfSvist", 0.2f);
+		}
+		if (!PlayerPrefs.HasKey ("ForceOfShield")) {
+			PlayerPrefs.SetFloat ("ForceOfShield", 0.2f);
+		}
+		if (!PlayerPrefs.HasKey ("ForceOfDirty")) {
+			PlayerPrefs.SetFloat ("ForceOfDirty", 0.2f);
+		}
 		if (!PlayerPrefs.HasKey ("CountOfChargedBatteries")) {
 			PlayerPrefs.SetInt ("CountOfChargedBatteries", 0);
 		}

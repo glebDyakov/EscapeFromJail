@@ -7,6 +7,7 @@ public class RedrawBarOfEnemiesLeft : MonoBehaviour {
 	public static float barScale;
 
 	public static bool Redraw(){
+		print ("redraw");
 		//float countOfZeks = 5f;
 		//float countOfZeks = 16f / SpawnZek.countOfZeks;
 		//GameObject.FindGameObjectWithTag("EnemiesLeft").transform.localScale= new Vector2(16f / 5f, 5f);

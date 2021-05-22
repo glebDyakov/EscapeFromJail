@@ -38,7 +38,7 @@ public class MoveZek : MonoBehaviour {
 		){
 			if (gameState.GetComponent<GameState>().watchers [0] == null) {
 				//здесь менять анимацию на бег
-				//animat.Play ("Z_R");
+				//animat.Play("Z_R");
 				//убегает за пределы карты
 				destination = -8.000000f;
 			}
@@ -47,14 +47,14 @@ public class MoveZek : MonoBehaviour {
 		){
 			if (gameState.GetComponent<GameState>().watchers [1] == null) {
 				//здесь менять анимацию на бег
-				//animat.Play ("Z_R");
+				//animat.Play("Z_R");
 			}
 		} else if(rowOfZek == 3
 			//transform.localPosition.y > -2.71f
 		){
 			if (gameState.GetComponent<GameState>().watchers [2] == null) {
 				//здесь менять анимацию на бег
-				//animat.Play ("Z_R");
+				//animat.Play("Z_R");
 				//убегает за пределы карты
 				destination = -8.000000f;
 			}
@@ -75,7 +75,7 @@ public class MoveZek : MonoBehaviour {
 			//transform.position = new Vector2 ();		
 		} 
 		*/
-		if (walk && transform.localPosition.x > destination && !svistStop && !naruchnikiStop) {
+		if (walk /*&& transform.localPosition.x > destination*/ && !svistStop && !naruchnikiStop) {
 			if(!GetComponent<KillZek>().isDie){
 				if(transform.localPosition.x < -1f){
 					if(transform.localPosition.y > -2.25f && !zeklazier){
@@ -94,7 +94,7 @@ public class MoveZek : MonoBehaviour {
 			gameObject.GetComponent<Animation>().Play();
 			*/
 			if (!GetComponent<KillZek> ().isDie) {
-				animat.Play ("Z_A");
+				//animat.Play("Z_A");
 			}
 		}		
 	}
@@ -136,12 +136,12 @@ public class MoveZek : MonoBehaviour {
 			Destroy(other.gameObject.GetComponent<Rigidbody2D> ());
 			Destroy (other.gameObject);
 			GetComponent<AudioSource>().clip = clips[1];
-			GetComponent<AudioSource> ().Play ();
+			GetComponent<AudioSource> ().Play();
 			Invoke ("ResetNaruchnikiStop", 10f);
 			print ("naruchnikiMeAttack");
 		} else if (other.gameObject.name.Contains("svist")) {
 			GetComponent<AudioSource>().clip = clips[0];
-			GetComponent<AudioSource> ().Play ();
+			GetComponent<AudioSource> ().Play();
 			Invoke ("ResetSvistStop", 20f);
 			print ("svistMeAttack");
 		}
@@ -157,4 +157,9 @@ public class MoveZek : MonoBehaviour {
 	void ResetNaruchnikiStop(){
 		naruchnikiStop = false;
 	}
+
+	void OnMouseDown(){
+		gameState.GetComponent<GameState>().area.GetComponent<ShotBullet>().OnMouseUp();
+	}
+
 }

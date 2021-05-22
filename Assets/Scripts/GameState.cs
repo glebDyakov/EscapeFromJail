@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour {
 
+	public GameObject area;
+	public GameObject progressBar;
+	public GameObject healthBarOfWatcher;
+	public GameObject allZeks;
 	public List<GameObject> watchers;
 	public GameObject repairLifeBar;
 
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

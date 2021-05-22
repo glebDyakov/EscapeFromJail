@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Animations\OhranikAnimator.cs" />
+     <Compile Include="Assets\Scripts\ActionForWeapons.cs" />
      <Compile Include="Assets\Scripts\AddCoins.cs" />
      <Compile Include="Assets\Scripts\ButtonsClick.cs" />
      <Compile Include="Assets\Scripts\BuyElixir.cs" />
@@ -89,6 +90,7 @@
      <Compile Include="Assets\Scripts\SpawnSpider.cs" />
      <Compile Include="Assets\Scripts\SpawnZek.cs" />
      <Compile Include="Assets\Scripts\StartThiLevel.cs" />
+     <Compile Include="Assets\Scripts\Thief.cs" />
      <Compile Include="Assets\Scripts\ToNextWeapon.cs" />
      <Compile Include="Assets\Scripts\UpdateTextCustomComponent.cs" />
      <Compile Include="Assets\Scripts\UseAttack.cs" />

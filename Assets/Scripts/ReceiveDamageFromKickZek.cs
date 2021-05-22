@@ -12,6 +12,9 @@ public class ReceiveDamageFromKickZek : MonoBehaviour {
 	public GameObject healthBar;
 	public GameObject repairLifeBar;
 	public bool bot=false;
+	public GameObject attackZek;
+	public bool reload=true;
+	public GameObject bullet;
 	// Use this for initialization
 	void Start(){
 		healthBarScaleUnit = healthBar.transform.localScale.x / 100f;
@@ -21,22 +24,11 @@ public class ReceiveDamageFromKickZek : MonoBehaviour {
 			animat.Play("O_dub-0");
 		}
 	}
-	/*void OnCollisionEnter2D (Collision2D other) {
-		if(other.gameObject.tag != "Player"){
-			animat.Play("Z_A");
-			healthBar.transform.localScale = new Vector2(healthBar.transform.localScale.x - 0.2f, healthBar.transform.localScale.y);
-			if(healthBar.transform.localScale.x <= 0f){
-				//repairLifeBar.SetActive (true);
-				//SceneManager.LoadScene ("Menu");
 
-			}
-			print ("Kick");
-		}
-	}*/
-	void OnTriggerEnter2D (Collider2D other) {
+	public void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.tag.Contains("zek")) {
+			attackZek = other.gameObject;
 			//анимация боли от удара зека
-			//animat.Play("O_D");
 			if(healthBar.transform.localScale.x >= 0f){
 				if (rowOfWatcher == 1 && other.GetComponent<MoveZek> ().rowOfZek == 1) {
 					//бот атакует
@@ -52,30 +44,81 @@ public class ReceiveDamageFromKickZek : MonoBehaviour {
 				}
 			}
 
-			//healthBar.transform.localScale.x - 0.2f
+
 			if (!bot && healthBar.transform.localScale.x <= 0f) {
 				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") + PlayerPrefs.GetInt ("TextCoinsInLevel"));
 				//умерает охранник
 				animat.Play ("O_D");
+				healthBar.SetActive (false);
 				repairLifeBar.SetActive (true);
-				//SceneManager.LoadScene ("Menu");
 				print (PlayerPrefs.GetInt ("TextCoinsAll"));
 			} else if (bot && healthBar.transform.localScale.x <= 0f) {
 				animat.Play ("O_D");
-				//other.gameObject.GetComponent<Animator>().Play ("Z_R");
+				healthBar.SetActive (false);
 			}
 			print ("Kick trigger");
 		}
 	}
-	/*
-	void OnTriggerStay2D (Collider2D other) {
-		//Animation.Play("ZekKick");
-
-		print ("Kick triggerStay");
+	//функция атаки
+	public void СopAttack () {
+		
+		if (attackZek) {
+			print ("СopAttack");
+			//анимация боли от удара зека
+			if (healthBar.transform.localScale.x >= 0f) {
+				if (rowOfWatcher == 1 && attackZek.GetComponent<MoveZek> ().rowOfZek == 1) {
+					attackZek.GetComponent<KillZek> ().PreDie ();
+					attackZek.transform.GetChild(0).gameObject.SetActive(true);
+					Invoke("ActiveHealth",2);
+					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 3f, healthBar.transform.localScale.y);
+				} else if (rowOfWatcher == 3 && attackZek.GetComponent<MoveZek> ().rowOfZek == 3) {
+					attackZek.GetComponent<KillZek> ().PreDie ();
+					attackZek.transform.GetChild(0).gameObject.SetActive(true);
+					Invoke("ActiveHealth",2);
+					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
+				} else if (rowOfWatcher == 2 && attackZek.GetComponent<MoveZek> ().rowOfZek == 2) {
+					attackZek.GetComponent<KillZek> ().PreDie ();
+					attackZek.transform.GetChild(0).gameObject.SetActive(true);
+					Invoke("ActiveHealth",2);
+					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
+				}	
+			}
+		}
 	}
-	*/
+
+	void ActiveHealth(){
+		if (attackZek) {
+			attackZek.transform.GetChild(0).gameObject.SetActive(false);
+		}
+	}
+
+	public void ChangeAnimation () {
+		print ("ChangeAnimation");
+		if (attackZek) {
+			animat.Play ("O_dub-1");
+			if (healthBar.transform.localScale.x >= 0f) {
+				if (rowOfWatcher == 1 && attackZek.GetComponent<MoveZek> ().rowOfZek == 1) {
+					print ("atackZek");
+					animat.Play ("O_dub-1");
+				}
+			}else if (healthBar.transform.localScale.x >= 0f) {
+				if (rowOfWatcher == 3 && attackZek.GetComponent<MoveZek> ().rowOfZek == 3) {
+					animat.Play ("O_dub-1");
+				}
+			}
+		}
+	}
 	void DestroyCop(){
-		Destroy (healthBar, 2f);
-		Destroy(gameObject, 2f);
+		Destroy (healthBar.transform.parent.gameObject,2);
+		Destroy(gameObject,2);
+		attackZek.GetComponent<MoveZek>().walk=true;
+		attackZek.GetComponent<Animator>().Play("Z_R");
+	}
+
+	void RoloadPistol(){
+		reload = true;
+	}
+	public void ShowAmmo(){
+		bullet.GetComponent<ShotBullet> ().ShowAmmo();
 	}
 }

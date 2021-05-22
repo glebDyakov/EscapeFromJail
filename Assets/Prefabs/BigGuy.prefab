@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 1548265311855280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4463797, y: -1.2704546, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4854898648050470}
   m_Father: {fileID: 0}
@@ -234,12 +234,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd5476853cc31d46b07b6a052438c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarScale: 0
+  healthBarScaleUnit: 0
+  enemiesLeftBarScale: 0
+  isDie: 0
   ballDamage: 0
   dinamitDamage: 0
+  hp: 150
   healthBar: {fileID: 1083992471187664}
   shoot: {fileID: 8300000, guid: b3defb5b4ced7cd468dcf75ebe3431cb, type: 3}
   scream: {fileID: 8300000, guid: dccbb8c94dbe366408b5fc5f04971c75, type: 3}
   enemiesLeftBar: {fileID: 0}
+  EnemyCop: {fileID: 0}
 --- !u!114 &114882924762364604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,11 +257,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1610225604e1cd34480819d3c849a091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clips: []
+  walk: 1
+  destination: 0
+  rowOfZek: 0
   flagStop: 0
   appleStop: 0
-  speed: 0.2
+  naruchnikiStop: 0
+  svistStop: 0
+  speed: 0.3
   zeklazier: 0
   zekKick: {fileID: 0}
+  watchers: []
+  gameState: {fileID: 0}
 --- !u!212 &212205599702231358
 SpriteRenderer:
   m_ObjectHideFlags: 1
