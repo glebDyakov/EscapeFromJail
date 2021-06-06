@@ -9,7 +9,22 @@ public class DefaultSettings : MonoBehaviour {
 			PlayerPrefs.SetString ("AudioOn", "Yes");
 		}
 		if (!PlayerPrefs.HasKey ("CountAmmo")) {
-			PlayerPrefs.SetInt ("CountAmmo", 1);
+			PlayerPrefs.SetInt ("CountAmmo", 2);
+		}
+		if (!PlayerPrefs.HasKey ("CountNaruchniki")) {
+			PlayerPrefs.SetInt ("CountNaruchniki", 0);
+		}
+		if (!PlayerPrefs.HasKey ("CountSvist")) {
+			PlayerPrefs.SetInt ("CountSvist", 0);
+		}
+		if (!PlayerPrefs.HasKey ("CountShootgunAmmo")) {
+			PlayerPrefs.SetInt ("CountShootgunAmmo", 1);
+		}
+		if (!PlayerPrefs.HasKey ("ForceOfShootgun")) {
+			PlayerPrefs.SetFloat ("ForceOfShootgun", 0.33f);
+		}
+		if (!PlayerPrefs.HasKey ("CountStickAmmo")) {
+			PlayerPrefs.SetInt ("CountStickAmmo", 1);
 		}
 		if (!PlayerPrefs.HasKey ("ForceOfNaruchniki")) {
 			PlayerPrefs.SetFloat ("ForceOfNaruchniki", 0.2f);
@@ -35,6 +50,15 @@ public class DefaultSettings : MonoBehaviour {
 		if (!PlayerPrefs.HasKey ("ThirdSlotOfTrap")) {
 			PlayerPrefs.SetString ("ThirdSlotOfTrap", "flag");
 		}
+		if (!PlayerPrefs.HasKey ("DoubleCoinsEnabled")) {
+			PlayerPrefs.SetInt ("DoubleCoinsEnabled", 0);
+		}
+		if (!PlayerPrefs.HasKey ("ShieldEnabled")) {
+			PlayerPrefs.SetInt ("ShieldEnabled", 0);
+		}
+		if (!PlayerPrefs.HasKey ("DirtyEnabled")) {
+			PlayerPrefs.SetInt ("DirtyEnabled", 0);
+		}
 		if (!PlayerPrefs.HasKey ("FourthSlotOfTrap")) {
 			PlayerPrefs.SetString ("FourthSlotOfTrap", "ball");
 		}
@@ -42,7 +66,8 @@ public class DefaultSettings : MonoBehaviour {
 			PlayerPrefs.SetInt ("lastAvailableLevel", 1);
 		}
 		if (!PlayerPrefs.HasKey ("TextCoinsAll")) {
-			PlayerPrefs.SetInt ("TextCoinsAll", 0);
+			PlayerPrefs.SetInt ("TextCoinsAll", 5000);
+
 		}
 		if (!PlayerPrefs.HasKey ("ElixirsCount")) {
 			PlayerPrefs.SetInt ("ElixirsCount", 0);

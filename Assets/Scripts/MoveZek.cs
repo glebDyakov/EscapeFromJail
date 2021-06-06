@@ -6,7 +6,7 @@ public class MoveZek : MonoBehaviour {
 	public List<AudioClip> clips;
 	public bool walk=true;
 	public float destination;
-	public float rowOfZek;
+	public int rowOfZek;
 	Animator animat;
 	public bool flagStop = false;
 	public bool appleStop = false;
@@ -26,7 +26,7 @@ public class MoveZek : MonoBehaviour {
 		gameState = GameObject.FindWithTag("GameState");
 
 		int veroyatnostylaziera = Random.Range (0, 100) ;
-		zeklazier = veroyatnostylaziera > 0 ? true : false;
+		zeklazier = veroyatnostylaziera > 10 ? true : false;
 
 		watchers = GameObject.FindGameObjectsWithTag("Player");
 	}
@@ -75,28 +75,32 @@ public class MoveZek : MonoBehaviour {
 			//transform.position = new Vector2 ();		
 		} 
 		*/
-		if (walk /*&& transform.localPosition.x > destination*/ && !svistStop && !naruchnikiStop) {
+		if (walk /*&& !svistStop && !naruchnikiStop*/) {
 			if(!GetComponent<KillZek>().isDie){
 				if(transform.localPosition.x < -1f){
 					if(transform.localPosition.y > -2.25f && !zeklazier){
 						transform.Translate (Vector2.up * -(Time.deltaTime * speed));
+						gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "RowTwo";
+						rowOfZek = 2;
+						gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "RowTwo";
+						gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "RowTwo";
 					}else if(transform.localPosition.y < -2.25f && !zeklazier){
 						transform.Translate (Vector2.up * (Time.deltaTime * speed));
+						gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "RowTwo";
+						rowOfZek = 2;
+						gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "RowTwo";
+						gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "RowTwo";
 					}
 				}
 				transform.Translate (Vector2.right * -(Time.deltaTime * speed));
 			}
 			//transform.position = new Vector2 ();		
-		} else if(!svistStop && !naruchnikiStop){
-			/*
-			 * анимация удара зека об охраника
-			GetComponent<Animation>().clip = zekKick;
-			gameObject.GetComponent<Animation>().Play();
-			*/
+		}/* else if(!svistStop && !naruchnikiStop){
+			
 			if (!GetComponent<KillZek> ().isDie) {
 				//animat.Play("Z_A");
 			}
-		}		
+		}*/
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -111,7 +115,7 @@ public class MoveZek : MonoBehaviour {
 			//Анимация с наручниками у зека
 		}
 		*/
-		if (other.gameObject.name.Contains("svist")) {
+		/*if (other.gameObject.name.Contains("svist")) {
 			svistStop = true;
 			//Анимация оглушения зека
 			print ("svistMeAttack");
@@ -119,32 +123,27 @@ public class MoveZek : MonoBehaviour {
 			naruchnikiStop = true;
 			print ("naruchnikiMeAttack");
 			//Анимация с наручниками у зека
-		} else if (other.gameObject.name.Contains("Deadline")) {
+		}*/  if (other.gameObject.name.Contains("Deadline")) {
 			PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") + PlayerPrefs.GetInt ("TextCoinsInLevel"));
 			gameState.GetComponent<GameState>().repairLifeBar.SetActive (true);
 		}
 	}
 	void OnTriggerExit2D (Collider2D other) {
-		/*
-		if (other.gameObject.name == "flag" || other.gameObject.name == "flag(Clone)") {
-			Invoke ("ResetFlagStop", 2f);
-			print ("flagMeAttack");
-		}
-		*/
+		
 
-		if (other.gameObject.name.Contains("naruchniki")) {
+		/*if (other.gameObject.name.Contains("naruchniki")) {
 			Destroy(other.gameObject.GetComponent<Rigidbody2D> ());
 			Destroy (other.gameObject);
 			GetComponent<AudioSource>().clip = clips[1];
 			GetComponent<AudioSource> ().Play();
-			Invoke ("ResetNaruchnikiStop", 10f);
+			//Invoke ("ResetNaruchnikiStop", 10f);
 			print ("naruchnikiMeAttack");
 		} else if (other.gameObject.name.Contains("svist")) {
 			GetComponent<AudioSource>().clip = clips[0];
 			GetComponent<AudioSource> ().Play();
-			Invoke ("ResetSvistStop", 20f);
+			//Invoke ("ResetSvistStop", 20f);
 			print ("svistMeAttack");
-		}
+		}*/
 	}
 	void ResetFlagStop(){
 		flagStop = false;

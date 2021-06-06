@@ -10,6 +10,7 @@ TagManager:
   - zek
   - GameState
   - RepairLife
+  - ExpandText
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,7 @@ TagManager:
     locked: 0
   - name: RepairLife
     uniqueID: 2412311529
+    locked: 0
+  - name: Help
+    uniqueID: 1105347215
     locked: 0

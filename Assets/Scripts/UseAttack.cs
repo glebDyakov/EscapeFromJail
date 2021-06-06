@@ -9,11 +9,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UseAttack : MonoBehaviour {
+
+	public Text svistCount;
+	public Text naruchnikiCount;
+
 	public Animator anim;
 	GameObject trapInst;
 	public float strike;
 	public float numberOfSlot;
-	int counter = 0;
+	//int counter = 0;
 	public GameObject dinamitInst;
 	public GameObject appleInst;
 	public GameObject ballInst;
@@ -34,66 +38,34 @@ public class UseAttack : MonoBehaviour {
 
 	Vector2 startPosition;
 	public static Vector2 toPosition;
-	// Use this for initialization
-	void OnMouseDrag () {
-		counter++;
-		if(counter == 1){
-			startPosition = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition[0], Input.mousePosition[1]));
+
+	void OnMouseDown(){
+		if (trapInst.name.Contains ("naruchniki") && PlayerPrefs.GetInt ("CountNaruchniki") > 0) {
+			anim.Play ("O_nar-0");
 		}
-		print ("атака");
-		gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition[0], Input.mousePosition[1]));
+		startPosition = gameObject.transform.position;
 	}
+	void OnMouseDrag () {
+		if((trapInst.name.Contains("svist") && PlayerPrefs.GetInt ("CountSvist") > 0) || (trapInst.name.Contains("naruchniki") && PlayerPrefs.GetInt ("CountNaruchniki") > 0)){
+			
+
+			print ("атака");
+			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition[0], Input.mousePosition[1], 5f));
+
+			}
+	}
+
 	void OnMouseUp () {
-		toPosition = gameObject.transform.position;
-		Invoke("ResetPosition", 0.5f);
+		if ((trapInst.name.Contains ("svist") && PlayerPrefs.GetInt ("CountSvist") > 0) || (trapInst.name.Contains ("naruchniki") && PlayerPrefs.GetInt ("CountNaruchniki") > 0)) {
+			toPosition = gameObject.transform.position;
+			Invoke ("ResetPosition", 0.5f);
+		}
 	}
 	void ResetPosition(){
 		gameObject.transform.position = startPosition;
 		if ((trapInst.name.Contains ("svist") && PlayerPrefs.GetInt ("CountSvist") > 0) || (trapInst.name.Contains ("naruchniki") && PlayerPrefs.GetInt ("CountNaruchniki") > 0)) {
-			dinamitInstPrefab = Instantiate (trapInst, new Vector2 (-8.75f, -2.35f), Quaternion.identity);	
-			/*
-			if(PlayerPrefs.GetString ("FirstSlotOfTrap") == "dinamit" || PlayerPrefs.GetString ("SecondSlotOfTrap") == "dinamit" || PlayerPrefs.GetString ("ThirdSlotOfTrap") == "dinamit" || PlayerPrefs.GetString ("FourthSlotOfTrap") == "dinamit"){
-				dinamitInstPrefab = Instantiate (dinamitInst);		
-			} else if(PlayerPrefs.GetString ("FirstSlotOfTrap") == "ball"  || PlayerPrefs.GetString ("SecondSlotOfTrap") == "ball"  || PlayerPrefs.GetString ("ThirdSlotOfTrap") == "ball"  || PlayerPrefs.GetString ("FourthSlotOfTrap") == "ball"){
-				dinamitInstPrefab = Instantiate (ballInst);		
-			}  else if(PlayerPrefs.GetString ("FirstSlotOfTrap") == "apple"  || PlayerPrefs.GetString ("SecondSlotOfTrap") == "apple"  || PlayerPrefs.GetString ("ThirdSlotOfTrap") == "apple"  || PlayerPrefs.GetString ("FourthSlotOfTrap") == "apple"){
-				dinamitInstPrefab = Instantiate (appleInst);		
-			} else if(PlayerPrefs.GetString ("FirstSlotOfTrap") == "flag"  || PlayerPrefs.GetString ("SecondSlotOfTrap") == "flag"  || PlayerPrefs.GetString ("ThirdSlotOfTrap") == "flag"  || PlayerPrefs.GetString ("FourthSlotOfTrap") == "flag"){
-				dinamitInstPrefab = Instantiate (flagInst);		
-			}
-			*/
+			dinamitInstPrefab = Instantiate (trapInst, new Vector2 (-8.75f, -2.35f), Quaternion.identity);
 
-			/*
-			if (dinamitInstPrefab.name == "apple" || dinamitInstPrefab.name == "apple(Clone)") {
-				Rigidbody2D dinamitInstrb = dinamitInstPrefab.GetComponent<Rigidbody2D> ();
-				dinamitInstrb.AddRelativeForce (toPosition * strike, ForceMode2D.Impulse);
-				Invoke ("DestroyWeapon", 0.5f);
-			}
-			*/
-
-			/*
-			раньше начиная с этой строки было не закомментировано и работало
-			if (dinamitInstPrefab.name.Contains("apple") || dinamitInstPrefab.name.Contains("ball") || dinamitInstPrefab.name.Contains("flag") || dinamitInstPrefab.name.Contains("dinamit")) {
-				Rigidbody2D dinamitInstrb = dinamitInstPrefab.GetComponent<Rigidbody2D> ();
-				dinamitInstrb.AddRelativeForce (toPosition * strike, ForceMode2D.Impulse);
-				//dinamitInstrb.AddRelativeForce (new Vector2(250, 50f), ForceMode2D.Impulse);
-				if(dinamitInstPrefab.name.Contains("apple")){
-					//анимация с яблоком
-					anim.Play("O_svist");
-				} else if(dinamitInstPrefab.name.Contains("ball")){
-					//анимация с мячом
-					anim.Play("O_svist");
-				}  else if(dinamitInstPrefab.name.Contains("flag")){
-					//анимация с флагом
-					anim.Play("O_svist");
-				}  else if(dinamitInstPrefab.name.Contains("dinamit")){
-					//анимация с динамитом
-					anim.Play("O_svist");
-				} 
-				Invoke ("DestroyWeapon", 0.5f);
-			}
-
-			*/
 
 
 			if (dinamitInstPrefab.name.Contains ("svist") || dinamitInstPrefab.name.Contains ("naruchniki")) {
@@ -103,22 +75,22 @@ public class UseAttack : MonoBehaviour {
 						anim.Play ("O_svist");
 						print ("1CountSvist: " + PlayerPrefs.GetInt ("CountSvist"));
 						print ("1CountNaruchniki: " + PlayerPrefs.GetInt ("CountNaruchniki"));
-								
-						Rigidbody2D dinamitInstrb = dinamitInstPrefab.GetComponent<Rigidbody2D> ();
-						dinamitInstrb.AddRelativeForce (toPosition * strike, ForceMode2D.Impulse);
-						//dinamitInstrb.AddRelativeForce (new Vector2(250, 50f), ForceMode2D.Impulse);
-
 						PlayerPrefs.SetInt ("CountSvist", PlayerPrefs.GetInt ("CountSvist") - 1);
-						Invoke ("DestroyWeapon", 0.5f);
+						svistCount.text = PlayerPrefs.GetInt("CountSvist").ToString();
+
 					}
 				} else if (dinamitInstPrefab.name.Contains ("naruchniki")) {
 					if (PlayerPrefs.GetInt ("CountNaruchniki") > 0) {
 						//анимация с мячом
-						anim.Play ("O_nar-0");
+
+						anim.Play ("O_nar-1");
 						Rigidbody2D dinamitInstrb = dinamitInstPrefab.GetComponent<Rigidbody2D> ();
 						dinamitInstrb.AddRelativeForce (toPosition * strike, ForceMode2D.Impulse);
 						//dinamitInstrb.AddRelativeForce (new Vector2(250, 50f), ForceMode2D.Impulse);
 						PlayerPrefs.SetInt ("CountNaruchniki", PlayerPrefs.GetInt ("CountNaruchniki") - 1);
+
+						naruchnikiCount.text = PlayerPrefs.GetInt("CountNaruchniki").ToString();
+
 						Invoke ("DestroyWeapon", 0.5f);
 					}
 				}
@@ -132,14 +104,19 @@ public class UseAttack : MonoBehaviour {
 		}
 	}
 	void DestroyWeapon(){
-		Destroy (dinamitInstPrefab, 0.5f);
-	}
+		if (dinamitInstPrefab) {
+			Destroy (dinamitInstPrefab, 0.5f);
+		}
+		}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
 	void Start(){
+		PlayerPrefs.SetInt ("CountSvist", 5);
+		PlayerPrefs.SetInt ("CountNaruchniki", 5);
+
 		/*
 		//anim = GetComponent<Animator>();
 		PlayerPrefs.SetString ("FirstSlotOfTrap", "ball");

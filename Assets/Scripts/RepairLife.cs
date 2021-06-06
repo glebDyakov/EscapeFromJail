@@ -27,6 +27,8 @@ public class RepairLife : MonoBehaviour {
 		digit.text = (int.Parse(digit.text) - 1).ToString();
 		if (int.Parse (digit.text) <= 0 && repair) {
 			CancelInvoke ("DigitLess");
+			PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") + PlayerPrefs.GetInt ("TextCoinsInLevel"));
+			SetCountOfAmmo.countAmmo = 0;
 			SceneManager.LoadScene ("Menu");
 		} else if(!repair){
 			CancelInvoke ("DigitLess");

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameState : MonoBehaviour {
 
@@ -10,5 +11,6 @@ public class GameState : MonoBehaviour {
 	public GameObject allZeks;
 	public List<GameObject> watchers;
 	public GameObject repairLifeBar;
+	public Text expandText;
 
 }

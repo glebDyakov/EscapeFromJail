@@ -33,14 +33,14 @@ public class ReceiveDamageFromKickZek : MonoBehaviour {
 				if (rowOfWatcher == 1 && other.GetComponent<MoveZek> ().rowOfZek == 1) {
 					//бот атакует
 					animat.Play ("O_dub-1");
-					healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 3f, healthBar.transform.localScale.y);
+					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 3f, healthBar.transform.localScale.y);
 				} else if (rowOfWatcher == 3 && other.GetComponent<MoveZek> ().rowOfZek == 3) {
 					//бот атакует
 					animat.Play ("O_dub-1");
-					healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
+					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
 				} else if(rowOfWatcher == 2 && other.GetComponent<MoveZek> ().rowOfZek == 2) {
 				//охраник тратит жизни
-					healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
+					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
 				}
 			}
 
@@ -66,20 +66,21 @@ public class ReceiveDamageFromKickZek : MonoBehaviour {
 			print ("СopAttack");
 			//анимация боли от удара зека
 			if (healthBar.transform.localScale.x >= 0f) {
+				float damageFromStick = PlayerPrefs.GetInt ("CountStickAmmo") <= 1 ? 40f : PlayerPrefs.GetInt ("CountStickAmmo") >= 2 ? 80f : 40f;
 				if (rowOfWatcher == 1 && attackZek.GetComponent<MoveZek> ().rowOfZek == 1) {
-					attackZek.GetComponent<KillZek> ().PreDie ();
+					attackZek.GetComponent<KillZek> ().PreDie (damageFromStick);
 					attackZek.transform.GetChild(0).gameObject.SetActive(true);
-					Invoke("ActiveHealth",2);
+					//Invoke("ActiveHealth",2);
 					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 3f, healthBar.transform.localScale.y);
 				} else if (rowOfWatcher == 3 && attackZek.GetComponent<MoveZek> ().rowOfZek == 3) {
-					attackZek.GetComponent<KillZek> ().PreDie ();
+					attackZek.GetComponent<KillZek> ().PreDie (damageFromStick);
 					attackZek.transform.GetChild(0).gameObject.SetActive(true);
-					Invoke("ActiveHealth",2);
+					//Invoke("ActiveHealth",2);
 					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
 				} else if (rowOfWatcher == 2 && attackZek.GetComponent<MoveZek> ().rowOfZek == 2) {
-					attackZek.GetComponent<KillZek> ().PreDie ();
+					attackZek.GetComponent<KillZek> ().PreDie (damageFromStick);
 					attackZek.transform.GetChild(0).gameObject.SetActive(true);
-					Invoke("ActiveHealth",2);
+					//Invoke("ActiveHealth",2);
 					//healthBar.transform.localScale = new Vector2 (healthBar.transform.localScale.x - healthBarScale / 5f, healthBar.transform.localScale.y);
 				}	
 			}

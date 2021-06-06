@@ -160,7 +160,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 5d4384cc58efdb4498571b4b3cd3f993, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -272,7 +272,7 @@ SpriteRenderer:
   m_SortingLayerID: 724188459
   m_SortingLayer: 1
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 5ee447c4ed3b7054dbe5e8f38acc58fd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f29dd6a32c1f41b4dba14c32f0d79142, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0

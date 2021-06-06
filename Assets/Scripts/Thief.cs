@@ -1,41 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Thief : KillZek {
 
-	
 
-	/*public void OnTriggerEnter2D (Collider2D other) {
 
-		if (other.gameObject.tag == "Bullet") {
-			
-			Destroy (other.gameObject);
-			
-			transform.GetChild(0).gameObject.SetActive(true);
-			Invoke("ActiveHealth",2);
-			PreDie ();
-		} else if (other.gameObject.tag.Contains ("Player") && GetComponent<MoveZek>().rowOfZek == other.GetComponent<ReceiveDamageFromKickZek>().rowOfWatcher) {
-			//меняем флаг на то что зек стопорится
-			EnemyCop=other.gameObject;
-			anima.Play("Z_A");
-			GetComponent<MoveZek>().walk=false;
-			
-		}
-	}*/
 
 	public void ZeckAttack(){
-		// вор наносит маленький урон и ворует запасы 
 		if(EnemyCop){
-			
-			Destroy (gameObject);
-			//EnemyCop.GetComponent<Animator>().Play("O_dub-1");
-			//cop.healthBar.transform.localScale = new Vector2 (cop.healthBar.transform.localScale.x - cop.healthBarScale / 3f, cop.healthBar.transform.localScale.y);
+			ReceiveDamageFromKickZek cop=EnemyCop.GetComponent<ReceiveDamageFromKickZek>();
+			cop.healthBar.transform.localScale = new Vector2 (cop.healthBar.transform.localScale.x - cop.healthBarScale / 3f - damage, cop.healthBar.transform.localScale.y);
+			cop.OnTriggerEnter2D(gameObject.GetComponent<Collider2D>());
+			//
+			if(PlayerPrefs.GetInt ("CountNaruchniki")>=1){
+				PlayerPrefs.SetInt ("CountNaruchniki", PlayerPrefs.GetInt ("CountNaruchniki") - 1);
+				GameObject.Find("NaruchnikiAttackText").GetComponent<Text>().text = PlayerPrefs.GetInt("CountNaruchniki").ToString();
+			}else if(PlayerPrefs.GetInt ("CountSvist")>=1){
+				PlayerPrefs.SetInt ("CountSvist", PlayerPrefs.GetInt ("CountSvist") - 1);
+				GameObject.Find("SvistAttackText").GetComponent<Text>().text = PlayerPrefs.GetInt ("CountSvist").ToString ();
+			}
+			print ("Наручников" + PlayerPrefs.GetInt ("CountNaruchniki"));
+
 		}
-		/*else if(!EnemyCop){
-			GetComponent<MoveZek>().walk=true;
-			anima.Play("Z_R");
-		}*/
+
 	}
+
 
 }

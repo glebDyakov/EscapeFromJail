@@ -8,14 +8,16 @@ public class MoveBullet : MonoBehaviour {
 	float posX;
 	float posY;
 	*/
+	Vector2 rayDirection2D;
 	public bool pressed = false;
+	float rot_z;
 	void Start(){
 		finishPosition = Camera.main.ScreenToWorldPoint (new Vector2 (Input.mousePosition [0], Input.mousePosition [1]));
 		Vector2 diff = finishPosition - new Vector2(transform.position.x, transform.position.y);
 		diff.Normalize();
 
-		float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-		transform.rotation = Quaternion.Euler(0f, 0f, rot_z);
+		rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+		/*DANGERrayDirection2D=*/transform.rotation = /*(*/Quaternion.Euler(0f, 0f, rot_z)/**transform.up).normalized*/;
 	}
 	void OnMouseUp(){
 		pressed = true;
@@ -33,7 +35,11 @@ public class MoveBullet : MonoBehaviour {
 		*/
 		if(Vector2.Distance(gameObject.transform.position, finishPosition) > 0.2f){
 			//gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition.y < 0f ? new Vector2(finishPosition.x * -10f, finishPosition.y) : new Vector2(finishPosition.x * 10f, finishPosition.y), Time.deltaTime * 5f);
-			gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition, Time.deltaTime * 5f);
+
+		//Vector2 rayDirection2D = (Quaternion.Euler (0, 0, i) * transform.up).normalized;
+		//DANGER RaycastHit2D hitinfo=Physics2D.Raycast(transform.position,transform.rotation = (Quaternion.Euler(0f, 0f, rot_z)*transform.up).normalized,3f);
+		gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition, Time.deltaTime * 5f);
+
 		} else if(Vector2.Distance(gameObject.transform.position, finishPosition) <= 0.2f){
 			//finishPosition *= 2;
 			//gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition, Time.deltaTime * 5f);

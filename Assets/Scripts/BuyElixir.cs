@@ -10,6 +10,7 @@ public class BuyElixir : MonoBehaviour {
 	public int elixirPrice;
 	public GameObject elixirBuyWindow;
 	public Text coins;
+	public GameObject progressBar;
 
 	void OnMouseDown () {
 		if (PlayerPrefs.GetInt ("TextCoinsAll") >= elixirPrice) {
@@ -18,6 +19,8 @@ public class BuyElixir : MonoBehaviour {
 			print ("вы купили эликсир");
 
 
+			progressBar.GetComponent<AudioSource> ().clip = progressBar.GetComponent<ButtonsClick> ().clips [1];
+			progressBar.GetComponent<AudioSource> ().Play ();
 
 		} else {
 			GetComponent<AudioSource> ().Play ();

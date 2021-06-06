@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1543388499200620
 GameObject:
   m_ObjectHideFlags: 1
@@ -220,7 +220,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 718b06531e5fc5f478e6ceb9c3d536a6, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -245,12 +245,14 @@ MonoBehaviour:
   ballDamage: 0
   dinamitDamage: 0
   hp: 100
+  damage: 0.1
   healthBar: {fileID: 1543388499200620}
   anima: {fileID: 0}
   shoot: {fileID: 8300000, guid: b3defb5b4ced7cd468dcf75ebe3431cb, type: 3}
   scream: {fileID: 8300000, guid: dccbb8c94dbe366408b5fc5f04971c75, type: 3}
   enemiesLeftBar: {fileID: 1543388499200620}
   EnemyCop: {fileID: 0}
+  minWave: 1
 --- !u!114 &114882924762364604
 MonoBehaviour:
   m_ObjectHideFlags: 1

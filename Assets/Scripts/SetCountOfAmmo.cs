@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SetCountOfAmmo : MonoBehaviour {
+	public static int countAmmo;
 	public GameObject ammoPrefab;
 	public Animator anim;
 	public List<GameObject> bullets;
@@ -11,12 +12,14 @@ public class SetCountOfAmmo : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
 		//пока просто так задаем начальное оружие пистолет дальше это будет происходить через магазин
-		PlayerPrefs.SetString ("SelectedWeapon", "Pistol");
+		//PlayerPrefs.SetString ("SelectedWeapon", "Pistol");
 		//PlayerPrefs.SetInt ("CountAmmo", 5);
 
 		// взависимости какое выбрано оружие будет даваться нужное количество патронов
 		//if (PlayerPrefs.GetString ("SelectedWeapon") == "Pistol") {
-			PlayerPrefs.SetInt ("CountAmmo", 2);
+			//PlayerPrefs.SetInt ("CountAmmo", 2);
+			countAmmo = PlayerPrefs.GetInt ("CountAmmo");
+
 		//}
 		ShowAmmo ();
 
@@ -24,7 +27,7 @@ public class SetCountOfAmmo : MonoBehaviour {
 	public void HideAmmo(){
 		//Destroy ();
 
-		for (int ammoIndex = 0; ammoIndex  < PlayerPrefs.GetInt("CountAmmo"); ammoIndex++) {
+		for (int ammoIndex = 0; ammoIndex  < countAmmo; ammoIndex++) {
 			bullets.Remove(bullets[bullets.Count - 1]);
 			//allAmmos.transform.GetChild (bullets.Count - 1);
 			//ammoIndex < allAmmos.transform.childCount;
@@ -46,7 +49,7 @@ public class SetCountOfAmmo : MonoBehaviour {
 	}
 
 	public void ShowAmmo(){
-		for (int ammo = 0; ammo < PlayerPrefs.GetInt ("CountAmmo"); ammo++) {
+		for (int ammo = 0; ammo < countAmmo; ammo++) {
 			GameObject ammoOne = Instantiate (ammoPrefab, new Vector2(-12f + ammo, 5f), Quaternion.Euler(0f, 0f, 50f));
 			ammoOne.transform.parent = allAmmos.transform;
 			bullets.Add (ammoOne);

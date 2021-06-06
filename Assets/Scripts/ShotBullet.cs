@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ShotBullet : MonoBehaviour {
+	public Text countOfBulletOfShootgun;
 	public GameObject ammoPrefab;
 	public GameObject allAmmos;
 	public Behaviour setCountOfAmmoInt;
@@ -28,10 +29,8 @@ public class ShotBullet : MonoBehaviour {
 
 
 	public void OnMouseUp () {
-		if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count == 0){
-			anim.Play ("O_p-2");
-			//DANGER Invoke ("ShowAmmo", 5f);
-		}
+
+
 		if (setCountOfAmmoInt.GetComponent<SetCountOfAmmo> ().bullets.Count >= 1
 			//&& anim.gameObject.GetComponent<ReceiveDamageFromKickZek>().reload
 	) {
@@ -48,20 +47,14 @@ public class ShotBullet : MonoBehaviour {
 
 			//SetCountOfAmmo.HideAmmo ();
 
-			if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
-				AudioSource audioShoot = GetComponent<AudioSource> ();
-				audioShoot.clip = shoot;
-				audioShoot.Play ();
-				//ammoInst.HideAmmo ();
-				/*
-			SetCountOfAmmo a = new SetCountOfAmmo();
-			a.HideAmmo ();
-			*/
-			}
 			//ammoInst.ShowAmmo ();
 			//ammoInst.HideAmmo ();
 
-			PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt ("CountAmmo") - 1);
+			//PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt ("CountAmmo") - 1);
+
+			//DANGER SetCountOfAmmo.countAmmo -= 1;
+
+
 			//print (PlayerPrefs.GetInt ("CountAmmo"));
 			//zekprefab.transform.parent = allZeks.transform;
 			//Destroy (.);
@@ -98,14 +91,41 @@ public class ShotBullet : MonoBehaviour {
 			//point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
 			//float xPos = Camera.main.ScreenToWorldPoint(5f,5f,1f);
 
-			anim.Play("O_p-1");
+
 
 			//bulletInst = Instantiate (bullet, new Vector2 (-1.76749f, -2.102378f), Quaternion.identity) as GameObject;
 
 			//bulletInst = Instantiate (bullet, Camera.main.ScreenToWorldPoint(new Vector2 (posX,posY)), Quaternion.identity) as GameObject;
+			if(ActionsForButtons.selectedWeapon.Contains("Shootgun")){
+				PlayerPrefs.SetInt ("CountShootgunAmmo", PlayerPrefs.GetInt ("CountShootgunAmmo") - 1);
+				countOfBulletOfShootgun.text = PlayerPrefs.GetInt ("CountShootgunAmmo").ToString();
+				if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count <= SetCountOfAmmo.countAmmo){
+					anim.Play("O_p-1");
+					bulletInst = Instantiate (bullet, new Vector2(-4.8f, -2.5f), Quaternion.identity) as GameObject;
 
-			if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count <= 2){
-				bulletInst = Instantiate (bullet, new Vector2(-8f, -2.5f), Quaternion.identity) as GameObject;
+					if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
+						AudioSource audioShoot = GetComponent<AudioSource> ();
+						audioShoot.clip = shoot;
+						audioShoot.Play ();
+					}
+				}
+				if(PlayerPrefs.GetInt ("CountShootgunAmmo") == 0){
+					ActionsForButtons.selectedWeapon = "Pistol";
+					SetCountOfAmmo.countAmmo = PlayerPrefs.GetInt ("CountAmmo");
+					anim.Play("O_p-0");
+				}
+
+			} else if(ActionsForButtons.selectedWeapon.Contains("Pistol")){
+				if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count <= SetCountOfAmmo.countAmmo + 3){
+					anim.Play("O_p-1");
+					bulletInst = Instantiate (bullet, new Vector2(-4.8f, -2.5f), Quaternion.identity) as GameObject;
+
+					if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
+						AudioSource audioShoot = GetComponent<AudioSource> ();
+						audioShoot.clip = shoot;
+						audioShoot.Play ();
+					}
+				}
 			}
 
 
@@ -129,6 +149,12 @@ public class ShotBullet : MonoBehaviour {
 			//DANGER Invoke ("ShowAmmo", 5f);
 			//anim.Play("O_p-2");
 		}
+
+		if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count == 0){
+			anim.Play ("O_p-2");
+			//DANGER Invoke ("ShowAmmo", 5f);
+		}
+
 	}
 
 	public void ShowAmmo(){
@@ -145,29 +171,30 @@ public class ShotBullet : MonoBehaviour {
 		*/
 		if(anim.GetCurrentAnimatorStateInfo(0).IsName("O_p-2")){
 		int ammo = setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count;
-		if(ammo <= 2){
+		if(ammo <= SetCountOfAmmo.countAmmo - 1){
 			GameObject ammoOne = Instantiate (ammoPrefab, new Vector2(-12f + ammo, 5f), Quaternion.Euler(0f, 0f, 50f));
 			ammoOne.transform.parent = allAmmos.transform;
 			setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Add (ammoOne);
-			PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt("CountAmmo" + 1));
+			//PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt("CountAmmo" + 1));
+			//DANGER SetCountOfAmmo.countAmmo += 1;
 			//Invoke ("ShowAmmo", 5f);
 			//anim.Play("O_p-2");
 		}
 
-		if(ammo>=2){
+		if(ammo>=SetCountOfAmmo.countAmmo){
 			anim.Play("O_p-0");
 		}
 		
-		//print (allAmmos.transform.GetChild(allAmmos.transform.childCount - 1));
 		}
 	}
 
 
 	void Update(){
-		if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count>=2/* && reload*/){
+		if(setCountOfAmmoInt.GetComponent<SetCountOfAmmo>().bullets.Count >= SetCountOfAmmo.countAmmo/* && reload*/){
 			//reload = false;
+
 			if(anim && anim.GetCurrentAnimatorStateInfo(0).IsName("O_p-2")){
-			anim.Play("O_p-0");
+				anim.Play("O_p-0");
 			}
 		}
 		/*if(bulletInst){

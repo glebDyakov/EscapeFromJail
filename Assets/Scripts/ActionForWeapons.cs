@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class ActionForWeapons : MonoBehaviour {
 
+	public UnityEngine.UI.Image uziImage;
 	public UnityEngine.UI.Text ammos;
+	public UnityEngine.UI.Text expandText;
 	public string action;
 	public GameObject progressBar;
 
 	public void Start(){
 		ammos.text = "Боеприпасы: " + PlayerPrefs.GetInt ("CountAmmo").ToString();
+
+
+		if (PlayerPrefs.GetInt ("CountAmmo") >= 5) {
+			expandText.text = "Улучшено макс.";
+		} else {
+			expandText.text = "Expand: " + Mathf.CeilToInt(ButtonsClick.priceForExpandPistol + ButtonsClick.priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo")).ToString();
+		}
+
 		float amount = 1f;
 		if (PlayerPrefs.GetString ("SelectedWeapon").Contains("pistol")) {
 			amount = 1f / 5f;
@@ -22,6 +32,11 @@ public class ActionForWeapons : MonoBehaviour {
 			progressBar.GetComponent<UnityEngine.UI.Image>().fillAmount = amount * 1;
 		}
 		print (PlayerPrefs.GetInt ("CountAmmo").ToString());
+
+		if (PlayerPrefs.GetInt ("CountAmmo") < 5) {
+			uziImage.color = new Color32 (0, 0, 0, 255);
+		}
+
 	}
 
 	void OnMouseDown () {

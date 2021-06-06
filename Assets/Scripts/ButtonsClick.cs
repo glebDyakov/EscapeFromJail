@@ -6,22 +6,30 @@ using UnityEngine.SceneManagement;
 
 public class ButtonsClick : MonoBehaviour {
 
-	public int priceForExpandPistol = 50;
-	public int priceForExpandUzi = 100;
-	public int priceForExpandNaruchniki = 5;
-	public int priceForExpandSvist = 10;
-	public int priceForExpandShield = 15;
-	public int priceForExpandDirty = 20;
+	public static string selectedWeapon = "Pistol";
+	public static int priceForExpandPistol = 50;
+	public static int priceForExpandStick = 75;
+	public static int priceForExpandShootgun = 100;
+	public static int priceForExpandUzi = 100;
+	public static int priceForExpandNaruchniki = 35;
+	public static int priceForExpandSvist = 50;
+	public static int priceForExpandShield = 75;
+	public static int priceForExpandDirty = 100;
 	public List<AudioClip> clips;
 
 	public GameState gameState;
 	public Animator animat;
+
 	public Text ammosText;
+	public Text expandText;
+	public Text coinsText;
 
 	public static string currentItemInShop = "pistol";
 
 	public void Start(){
+		
 		gameState = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameState>();
+		expandText = gameState.expandText;
 	}
 
 	public void BuyAmmos (){
@@ -30,73 +38,142 @@ public class ButtonsClick : MonoBehaviour {
 
 	public void ExpandWeapon(){
 		gameState = GameObject.FindGameObjectWithTag ("GameState").GetComponent<GameState> ();
-		if (currentItemInShop.Contains ("pistol") || currentItemInShop.Contains ("uzi")) {
-			if (PlayerPrefs.GetString ("SelectedWeapon").Contains ("Pistol")) {
-				if (PlayerPrefs.GetInt ("CountAmmo") < 5 && PlayerPrefs.GetInt ("TextCoinsAll") > priceForExpandPistol) {
-					PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - priceForExpandPistol);
+		if (currentItemInShop.Contains ("pistol") || currentItemInShop.Contains ("stick") || currentItemInShop.Contains ("shootgun")) {
+			if (currentItemInShop.Contains ("Pistol")) {
+				if (PlayerPrefs.GetInt ("CountAmmo") < 5 && PlayerPrefs.GetInt ("TextCoinsAll") >= Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo"))) {
+					PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo")));
+					expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo")).ToString();
 					gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 5f;
 					PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt ("CountAmmo") + 1);
 					ammosText.text = "Боеприпасы: " + PlayerPrefs.GetInt ("CountAmmo");
+					coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
 					GetComponent<AudioSource> ().clip = clips [0];
 					GetComponent<AudioSource> ().Play ();
-					
+					/*
+					if(PlayerPrefs.GetInt ("CountAmmo") >= 5){
+						PlayerPrefs.SetString ("SelectedWeapon", "Uzi");
+					}
+					*/
+
+
+					if (PlayerPrefs.GetInt ("CountAmmo") >= 5) {
+						expandText.text = "Улучшено макс.";
+					}
+
 				} else {
 					GetComponent<AudioSource> ().clip = clips [1];
 					GetComponent<AudioSource> ().Play ();
 				}
-			} else if (PlayerPrefs.GetString ("SelectedWeapon").Contains ("Uzi")) {
-				if (PlayerPrefs.GetInt ("CountAmmo") < 10 && PlayerPrefs.GetInt ("TextCoinsAll") > priceForExpandUzi) {
-					PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - priceForExpandUzi);
-					gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 10f;
-					PlayerPrefs.SetInt ("CountAmmo", PlayerPrefs.GetInt ("CountAmmo") + 1);
-					ammosText.text = "Боеприпасы: " + PlayerPrefs.GetInt ("CountAmmo");
+			} else if (currentItemInShop.Contains ("stick")) {
+				Debug.Break ();
+				if (PlayerPrefs.GetInt ("CountStickAmmo") < 2 && PlayerPrefs.GetInt ("TextCoinsAll") > Mathf.CeilToInt(priceForExpandStick + priceForExpandStick * PlayerPrefs.GetInt ("CountStickAmmo"))) {
+					PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandStick + priceForExpandStick * PlayerPrefs.GetInt ("CountStickAmmo")));
+					expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandStick + priceForExpandStick * PlayerPrefs.GetInt ("CountStickAmmo")).ToString();
+					gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 2f;
+					PlayerPrefs.SetInt ("CountStickAmmo", PlayerPrefs.GetInt ("CountStickAmmo") + 1);
+					ammosText.text = "Боеприпасы: " + PlayerPrefs.GetInt ("CountStickAmmo");
+					coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
 					GetComponent<AudioSource> ().clip = clips [0];
 					GetComponent<AudioSource> ().Play ();
+
+					if (PlayerPrefs.GetInt ("CountStickAmmo") >= 2) {
+						expandText.text = "Улучшено макс.";
+					}
+
+				} else {
+					GetComponent<AudioSource> ().clip = clips [1];
+					GetComponent<AudioSource> ().Play ();
+				}
+			} else if (currentItemInShop.Contains ("shootgun")) {
+				if (PlayerPrefs.GetFloat ("ForceOfShootgun") < 1f - 1f / 3f && PlayerPrefs.GetInt ("TextCoinsAll") > Mathf.CeilToInt(priceForExpandShootgun + priceForExpandShootgun * PlayerPrefs.GetFloat ("ForceOfShootgun"))) {
+					PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandShootgun + priceForExpandShootgun * PlayerPrefs.GetFloat ("ForceOfShootgun")));
+					expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandShootgun + priceForExpandShootgun * PlayerPrefs.GetFloat ("ForceOfShootgun")).ToString();
+					gameState.progressBar.GetComponent<Image> ().fillAmount += 1f / 3f;
+					PlayerPrefs.SetFloat ("ForceOfShootgun", PlayerPrefs.GetFloat ("ForceOfShootgun") + 1f / 3f);
+					ammosText.text = "Боеприпасы: " + PlayerPrefs.GetInt ("CountShootgunAmmo");
+					coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
+					GetComponent<AudioSource> ().clip = clips [0];
+					GetComponent<AudioSource> ().Play ();
+
+					if (PlayerPrefs.GetFloat ("ForceOfShootgun") >= 0.90f) {
+						expandText.text = "Улучшено макс.";
+					}
+
 				} else {
 					GetComponent<AudioSource> ().clip = clips [1];
 					GetComponent<AudioSource> ().Play ();
 				}
 			}
 		} else if (currentItemInShop.Contains ("naruchniki")) {
-			if (PlayerPrefs.GetInt ("ForceOfNaruchniki") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > priceForExpandNaruchniki) {
-				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - priceForExpandNaruchniki);
+			if (PlayerPrefs.GetFloat ("ForceOfNaruchniki") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > Mathf.CeilToInt(priceForExpandNaruchniki + priceForExpandNaruchniki * PlayerPrefs.GetFloat ("ForceOfNaruchniki"))) {
+				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandNaruchniki + priceForExpandNaruchniki * PlayerPrefs.GetFloat ("ForceOfNaruchniki")));
+				coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
+				expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandNaruchniki + priceForExpandNaruchniki * PlayerPrefs.GetFloat("ForceOfNaruchniki")).ToString();
 				gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 5f;
 				PlayerPrefs.SetFloat ("ForceOfNaruchniki", PlayerPrefs.GetFloat ("ForceOfNaruchniki") + 0.2f);
 				GetComponent<AudioSource> ().clip = clips [0];
 				GetComponent<AudioSource> ().Play ();
+
+				if (PlayerPrefs.GetFloat ("ForceOfNaruchniki") >= 1.0f) {
+					expandText.text = "Улучшено макс.";
+				}
+
 			} else {
 				GetComponent<AudioSource> ().clip = clips [1];
 				GetComponent<AudioSource> ().Play ();
 			}
+
 		} else if (currentItemInShop.Contains ("svist")) {
-			if (PlayerPrefs.GetInt ("ForceOfSvist") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > priceForExpandSvist) {
-				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - priceForExpandSvist);
+			if (PlayerPrefs.GetFloat ("ForceOfSvist") < 1.0f && PlayerPrefs.GetInt ("TextCoinsAll") > Mathf.CeilToInt(priceForExpandSvist + priceForExpandSvist * PlayerPrefs.GetFloat ("ForceOfSvist"))) {
+				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandSvist + priceForExpandSvist * PlayerPrefs.GetFloat ("ForceOfSvist")));
+				coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
+				expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandSvist + priceForExpandSvist * PlayerPrefs.GetFloat ("ForceOfSvist")).ToString();
 				gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 5f;
 				PlayerPrefs.SetFloat ("ForceOfSvist", PlayerPrefs.GetFloat ("ForceOfSvist") + 0.2f);
 				GetComponent<AudioSource> ().clip = clips [0];
 				GetComponent<AudioSource> ().Play ();
+
+				if (PlayerPrefs.GetFloat ("ForceOfSvist") >= 1.0f) {
+					expandText.text = "Улучшено макс.";
+				}
+
 			} else {
 				GetComponent<AudioSource> ().clip = clips [1];
 				GetComponent<AudioSource> ().Play ();
 			}
+			print (Mathf.CeilToInt(priceForExpandNaruchniki + priceForExpandNaruchniki * PlayerPrefs.GetFloat ("ForceOfNaruchniki")));
 		} else if (currentItemInShop.Contains ("shield")) {
-			if (PlayerPrefs.GetInt ("ForceOfShield") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > priceForExpandShield) {
-				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - priceForExpandShield);
+			if (PlayerPrefs.GetInt ("ForceOfShield") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > Mathf.CeilToInt(priceForExpandShield + priceForExpandShield * PlayerPrefs.GetFloat ("ForceOfShield"))) {
+				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandShield + priceForExpandShield * PlayerPrefs.GetFloat ("ForceOfShield")));
+				coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
+				expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandShield + priceForExpandShield * PlayerPrefs.GetFloat ("ForceOfShield")).ToString();
 				gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 5f;
 				PlayerPrefs.SetFloat ("ForceOfShield", PlayerPrefs.GetFloat ("ForceOfShield") + 0.2f);
 				GetComponent<AudioSource> ().clip = clips [0];
 				GetComponent<AudioSource> ().Play ();
+
+				if (PlayerPrefs.GetFloat ("ForceOfShield") >= 1.0f) {
+					expandText.text = "Улучшено макс.";
+				}
+
 			} else {
 				GetComponent<AudioSource> ().clip = clips [1];
 				GetComponent<AudioSource> ().Play ();
 			}
 		} else if (currentItemInShop.Contains ("dirty")) {
-			if (PlayerPrefs.GetInt ("ForceOfDirty") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > priceForExpandDirty) {
-				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - priceForExpandDirty);
+			if (PlayerPrefs.GetInt ("ForceOfDirty") < 1 && PlayerPrefs.GetInt ("TextCoinsAll") > Mathf.CeilToInt(priceForExpandDirty + priceForExpandDirty * PlayerPrefs.GetFloat ("ForceOfDirty"))) {
+				PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandDirty + priceForExpandDirty * PlayerPrefs.GetFloat ("ForceOfDirty")));
+				coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
+				expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo")).ToString();
 				gameState.progressBar.GetComponent<Image> ().fillAmount += 1 / 5f;
 				PlayerPrefs.SetFloat ("ForceOfDirty", PlayerPrefs.GetFloat ("ForceOfDirty") + 0.2f);
 				GetComponent<AudioSource> ().clip = clips [0];
 				GetComponent<AudioSource> ().Play ();
+
+				if (PlayerPrefs.GetFloat ("ForceOfDirty") >= 1.0f) {
+					expandText.text = "Улучшено макс.";
+				}
+
 			} else {
 				GetComponent<AudioSource> ().clip = clips [1];
 				GetComponent<AudioSource> ().Play ();
@@ -106,8 +183,26 @@ public class ButtonsClick : MonoBehaviour {
 		print ("CountAmmo: " + PlayerPrefs.GetInt ("CountAmmo").ToString());
 	}
 
+	public void ChangeWeapon(){
+		if (selectedWeapon.Contains("Shootgun")) {
+			selectedWeapon = "Pistol";
+			animat.Play("O_p-0");
+		} else if (selectedWeapon.Contains("Pistol")) {
+			selectedWeapon = "Shootgun";
+			animat.Play("O_p-0");
+
+		}
+		print (selectedWeapon);
+	}
+
 	public void Dubinka(){
+		selectedWeapon = "Dubinka";
 		animat.Play("O_dub-1");
+	}
+
+
+	public void Shootgun(){
+		selectedWeapon = "Shootgun";
 	}
 
 	public void LoadMenu(){

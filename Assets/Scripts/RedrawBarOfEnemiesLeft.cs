@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class RedrawBarOfEnemiesLeft : MonoBehaviour {
 
-	public static float barScale;
+	public UnityEngine.UI.Text svistCount;
+	public UnityEngine.UI.Text naruchnikiCount;
+	public bool doOnce = false;
 
+	public static float barScale;
+	//public GameObject allzecks;
 	public static bool Redraw(){
 		print ("redraw");
 		//float countOfZeks = 5f;
@@ -19,5 +23,9 @@ public class RedrawBarOfEnemiesLeft : MonoBehaviour {
 	}
 	public void Start(){
 		barScale = GameObject.FindGameObjectWithTag("EnemiesLeft").transform.localScale.x;
+		if (doOnce) {
+			naruchnikiCount.text = PlayerPrefs.GetInt ("CountNaruchniki").ToString ();
+			svistCount.text = PlayerPrefs.GetInt ("CountSvist").ToString ();
+		}
 	}
 }
