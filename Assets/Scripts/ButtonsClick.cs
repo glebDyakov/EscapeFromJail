@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,7 @@ public class ButtonsClick : MonoBehaviour {
 	public Text ammosText;
 	public Text expandText;
 	public Text coinsText;
+	public Text countOfThings;
 
 	public static string currentItemInShop = "pistol";
 
@@ -39,7 +41,7 @@ public class ButtonsClick : MonoBehaviour {
 	public void ExpandWeapon(){
 		gameState = GameObject.FindGameObjectWithTag ("GameState").GetComponent<GameState> ();
 		if (currentItemInShop.Contains ("pistol") || currentItemInShop.Contains ("stick") || currentItemInShop.Contains ("shootgun")) {
-			if (currentItemInShop.Contains ("Pistol")) {
+			if (currentItemInShop.Contains ("pistol")) {
 				if (PlayerPrefs.GetInt ("CountAmmo") < 5 && PlayerPrefs.GetInt ("TextCoinsAll") >= Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo"))) {
 					PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") - Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo")));
 					expandText.text = "Expand: " + Mathf.CeilToInt(priceForExpandPistol + priceForExpandPistol * PlayerPrefs.GetInt ("CountAmmo")).ToString();
@@ -49,6 +51,7 @@ public class ButtonsClick : MonoBehaviour {
 					coinsText.text = PlayerPrefs.GetInt ("TextCoinsAll").ToString();
 					GetComponent<AudioSource> ().clip = clips [0];
 					GetComponent<AudioSource> ().Play ();
+					countOfThings.text = "Coins: " + PlayerPrefs.GetInt ("CountAmmo").ToString();
 					/*
 					if(PlayerPrefs.GetInt ("CountAmmo") >= 5){
 						PlayerPrefs.SetString ("SelectedWeapon", "Uzi");
@@ -187,9 +190,10 @@ public class ButtonsClick : MonoBehaviour {
 		if (selectedWeapon.Contains("Shootgun")) {
 			selectedWeapon = "Pistol";
 			animat.Play("O_p-0");
-		} else if (selectedWeapon.Contains("Pistol")) {
+		} else if (selectedWeapon.Contains("Pistol") && PlayerPrefs.GetInt ("CountShootgunAmmo") >= 1) {
 			selectedWeapon = "Shootgun";
-			animat.Play("O_p-0");
+			animat.Play("O_s-0");
+			
 
 		}
 		print (selectedWeapon);
@@ -210,6 +214,35 @@ public class ButtonsClick : MonoBehaviour {
 		SceneManager.LoadScene ("Menu");
 	}
 
+	public void LoadCustomScene(string sceneName){
+		if(sceneName.Contains("Shop")){
+			SceneManager.LoadScene("Shop");
+		} else if(sceneName.Contains("Main")){
+
+			string lastTimestampPlay = DateTime.Now.ToString("dd:MM:yyyy|HH:mm:ss");
+        	PlayerPrefs.SetString("LastTimestampPlay", lastTimestampPlay);
+			PlayerPrefs.SetInt ("CountOfChargedBatteries", PlayerPrefs.GetInt ("CountOfChargedBatteries") - 1);
+			gameState.sceneName = "Main";
+			DontDestroyOnLoad(gameState);
+			SceneManager.LoadScene("Intermediate");
+			
+		} else if(sceneName.Contains("Level1")){
+			if(PlayerPrefs.GetInt("CountOfChargedBatteries") > 0){
+				PlayerPrefs.SetInt ("CountOfChargedBatteries", PlayerPrefs.GetInt ("CountOfChargedBatteries") - 1);
+				string lastTimestampPlay = DateTime.Now.ToString("dd:MM:yyyy|HH:mm:ss");
+        		PlayerPrefs.SetString("LastTimestampPlay", lastTimestampPlay);
+				gameState.sceneName = "Level1";
+				DontDestroyOnLoad(gameState);
+				SceneManager.LoadScene("Intermediate");
+			
+			} else if(PlayerPrefs.GetInt("CountOfChargedBatteries") < 0){
+				GetComponent<AudioSource>().Play();
+				//string lastTimestampPlay = DateTime.Now.ToString("dd:MM:yyyy|HH:mm:ss");
+        		//PlayerPrefs.SetString("LastTimestampPlay", lastTimestampPlay);
+			}
+		}
+	}
+
 	public void RepairLife(){
 		
 		gameState.repairLifeBar.GetComponent<RepairLife>().repair = false;
@@ -223,8 +256,6 @@ public class ButtonsClick : MonoBehaviour {
 		for(int child = 0; child <= gameState.allZeks.transform.childCount - 1; child++){
 			Destroy(gameState.allZeks.transform.GetChild(child).gameObject);
 		}
-
-
 	}
 
 	public void SetDefaultSettings(){
@@ -233,6 +264,11 @@ public class ButtonsClick : MonoBehaviour {
 		gameState.repairLifeBar.transform.localScale = new Vector2(1f, 1f);
 		gameState.repairLifeBar.SetActive (false);
 
+	}
+
+	public void PlayVideoForDoubleCoins(){
+		//играем видео при нажатии кнопки двойные монеты
+		print("играем видео при нажатии кнопки двойные монеты");
 	}
 
 	public void RespawnCop(){
@@ -246,4 +282,5 @@ public class ButtonsClick : MonoBehaviour {
 			GetComponent<AudioSource> ().Play();
 		}
 	}
+
 }

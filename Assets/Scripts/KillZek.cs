@@ -8,12 +8,14 @@ using UnityEngine.SceneManagement;
 public class KillZek : MonoBehaviour {
 	//public Text textCoins;
 	//GameObject textCoins = GameObject.FindGameObjectWithTag("TextCoinsTag");
+	AudioSource audioShoot;
+	public Text waveNumber;
 	public float healthBarScale;
 	public float healthBarScaleUnit;
 	public float enemiesLeftBarScale;
 	public bool isDie;
 	int textCointCount = 0;
-
+	
 	public bool ballDamage = false;
 	public bool dinamitDamage = false;
 	public float fullHP=100;
@@ -23,6 +25,7 @@ public class KillZek : MonoBehaviour {
 	public Animator anima;
 	public AudioClip shoot;
 	public AudioClip scream;
+	public AudioClip ambulance;
 	public GameObject enemiesLeftBar;
 	public GameObject EnemyCop;
 	public bool isTrap=false;
@@ -30,6 +33,10 @@ public class KillZek : MonoBehaviour {
 	float startHealthBar;
 
 	void Start(){
+
+ 		audioShoot = GetComponent<AudioSource> ();
+
+		waveNumber = GameObject.FindGameObjectWithTag("WaveNumber").GetComponent<Text>();
 		hp = fullHP;
 		healthBar = transform.GetChild (0).GetChild (0).gameObject;
 		//startHealthBar=healthBar.transform.localScale.x;
@@ -44,6 +51,7 @@ public class KillZek : MonoBehaviour {
 		if(!EnemyCop && GetComponent<MoveZek>().walk==false && !isTrap){
 			GetComponent<MoveZek>().walk=true;
 			anima.Play("Z_R");
+			
 		}
 	}
 
@@ -58,10 +66,9 @@ public class KillZek : MonoBehaviour {
 		if (hp > 0f) {
 			if(hpDamage>0){
 				if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
-				AudioSource audioShoot = GetComponent<AudioSource> ();
-				audioShoot.clip = scream;
-				audioShoot.Play();
-			}
+					audioShoot.clip = scream;
+					audioShoot.Play();
+				}
 			}
 			if (!dinamitDamage || !ballDamage) {
 				hp -= hpDamage;
@@ -95,7 +102,7 @@ public class KillZek : MonoBehaviour {
 				isDie = true;
 				print ("ВСЕГО"+SpawnZek.countOfZeks);
 				anima.Play("Z_D");
-				//gameObject.GetComponent <Collider2D>().enabled=false;
+				gameObject.GetComponent <Collider2D>().enabled=false;
 				if(!gameObject.name.Contains("оборотень(Clone)")){
 					allZeksKilled = RedrawBarOfEnemiesLeft.Redraw ();	
 				}
@@ -118,15 +125,19 @@ public class KillZek : MonoBehaviour {
 					//выживание
 					GameObject.FindGameObjectWithTag("EnemiesLeft").transform.localScale = new Vector2(31f, GameObject.FindGameObjectWithTag("EnemiesLeft").transform.localScale.y);
 					SpawnZek.Wave++;
-					SpawnZek.countOfZeks *=SpawnZek.Wave;
-
+					audioShoot.clip = ambulance;
+					audioShoot.Play();
+					waveNumber.text = "Wave: " + SpawnZek.Wave.ToString();
+					SpawnZek.countOfZeks = 5 * SpawnZek.Wave;
 					transform.parent.GetComponent<SpawnZek>().Spawn();
+					print("SpawnZek.countOfZeks: " + SpawnZek.countOfZeks.ToString());
 				}
 			}
 
 		}
 
-		print("уничтожен из за нажатия мыши");
+		//print("уничтожен из за нажатия мыши");
+		
 		//Destroy (this.gameObject, 0.2f);
 		textCointCount += 50;
 		//AddCoins.Add (textCointCount);
@@ -218,7 +229,7 @@ public class KillZek : MonoBehaviour {
 					}
 				}
 			}
-		} else if (other.gameObject.tag.Contains ("Player") && GetComponent<MoveZek> ().rowOfZek == other.GetComponent<ReceiveDamageFromKickZek> ().rowOfWatcher) {
+		} else if (other.gameObject.tag.Contains ("Player") && GetComponent<MoveZek> ().rowOfZek == other.gameObject.GetComponent<ReceiveDamageFromKickZek> ().rowOfWatcher) {
 			//меняем флаг на то что зек стопорится
 			EnemyCop = other.gameObject;
 
@@ -226,9 +237,10 @@ public class KillZek : MonoBehaviour {
 			anima.Play("Z_A");
 			GetComponent<MoveZek> ().walk = false;
 			//PreDie ();
-		}else if (other.name.Contains ("naruchniki")) {
+		}
+		else if (other.name.Contains ("naruchniki")) {
 			GetComponent<MoveZek> ().walk = false;
-			Destroy (other);
+			Destroy (other.gameObject);
 			isTrap = true;
 			//Анимация стана
 			anima.Play("Z_P");
@@ -248,7 +260,7 @@ public class KillZek : MonoBehaviour {
 		}
 		else if (other.name.Contains ("svist")) {
 			GetComponent<MoveZek> ().walk = false;
-			Destroy (other);
+			Destroy (other.gameObject);
 			isTrap = true;
 			//Анимация стана
 			anima.Play("Z_P");
@@ -316,6 +328,10 @@ public class KillZek : MonoBehaviour {
 			}
 			Invoke ("NeverGiveUpZeck", delay);
 		}
+		if(other.gameObject.tag=="zek" && gameObject.GetComponent<MoveZek> ().rowOfZek == other.gameObject.GetComponent<MoveZek> ().rowOfZek  && other.gameObject.transform.localPosition.x > transform.localPosition.x && GetComponent<SpriteRenderer>().sortingOrder==other.GetComponent<SpriteRenderer>().sortingOrder){
+			print("SORT");
+			GetComponent<SpriteRenderer>().sortingOrder+=1;
+		}
 	}
 
 	 void OnTriggerStay2D (Collider2D other) {
@@ -325,9 +341,11 @@ public class KillZek : MonoBehaviour {
 				print ("ballMeAttack");
 				//Анимация кровотечения
 			}
-		}else if(other.gameObject.name.Contains("HEAL") && other.transform.parent.GetComponent<KillZek>().minWave==2
-			&& minWave!=2 ){
-			print ("Leader heal");
+		}else if(other.gameObject.name.Contains("HEAL") && other.transform.parent.GetComponent<KillZek>().minWave==4
+			&& minWave!=4 ){
+			
+			//print ("Leader heal");
+			
 			/*if (other.transform.parent.name.Contains ("оборотень")) {
 				gameObject.GetComponent<Oboroten> ().PreDie (-5);
 			} else {*/
@@ -336,7 +354,7 @@ public class KillZek : MonoBehaviour {
 			}
 	}
 
-	void OnTriggerExit2D (Collider2D other) {
+/*void OnTriggerExit2D (Collider2D other) {
 		if (other.gameObject.name == "dinamit" || other.gameObject.name == "dinamit(Clone)") {
 			dinamitDamage = false;
 			print ("dinamitMeAttack");
@@ -345,12 +363,12 @@ public class KillZek : MonoBehaviour {
 			ballDamage = false;
 
 			print ("ballMeAttack");
-		} else if (other.gameObject.tag.Contains ("Player")) {
+		} else if (other.gameObject.tag.Contains ("Player") && GetComponent<MoveZek>().rowOfZek != 2) {
 			//меняем флаг на бег разрешен
 			GetComponent<MoveZek>().walk=true;
 			anima.Play("Z_R");
 		}
-	}
+	}*/
 
 	void ActiveHealth(){
 		transform.GetChild (0).gameObject.SetActive (false);

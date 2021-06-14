@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SpawnZek : MonoBehaviour {
+	public static int zekInt = 1;
 	public float positionY;
 	public GameObject allZeks;
 	List<GameObject> listOfEvilCharacters;
@@ -48,12 +49,16 @@ public class SpawnZek : MonoBehaviour {
 		}
 	}
 
-	public GameObject RandomZeck(){
+	public GameObject RandomZeck(bool isOboroten=false){
+		if(!isOboroten){
 		return listOfEvilCharacters [Random.Range (0, listOfEvilCharacters.Count)];
+		}else {
+		return zek;
+		}
 	}
 
 	public void Spawn(){
-		for (int zekInt = 0; zekInt < SpawnZek.countOfZeks; zekInt++) {
+		//for (int zekInt = 0; zekInt < SpawnZek.countOfZeks; zekInt++) {
 			//StartCoroutine(MoveZek(Instantiate (zek, new Vector2 (8.65f, -1.14f), Quaternion.identity)));
 			//if(transform.childCount < 5){
 			GameObject randomZek = RandomZeck();
@@ -90,9 +95,14 @@ public class SpawnZek : MonoBehaviour {
 					}
 				}
 				//yield return new WaitForSeconds (2f);
-			
-
-		}
+				if(zekInt < SpawnZek.countOfZeks){
+					zekInt++;
+					Invoke("Spawn", 2f);
+				} else if(zekInt >= SpawnZek.countOfZeks){
+					zekInt = 1;
+				}
+				
+			//}
 		}
 	}
 

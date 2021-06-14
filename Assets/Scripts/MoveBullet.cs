@@ -12,6 +12,9 @@ public class MoveBullet : MonoBehaviour {
 	public bool pressed = false;
 	float rot_z;
 	void Start(){
+		//gameObject.GetComponent<BoxCollider2D>().enabled = false;
+		gameObject.GetComponent<BoxCollider2D>().enabled = true;
+
 		finishPosition = Camera.main.ScreenToWorldPoint (new Vector2 (Input.mousePosition [0], Input.mousePosition [1]));
 		Vector2 diff = finishPosition - new Vector2(transform.position.x, transform.position.y);
 		diff.Normalize();
@@ -33,36 +36,16 @@ public class MoveBullet : MonoBehaviour {
 			}
 		}
 		*/
-		if(Vector2.Distance(gameObject.transform.position, finishPosition) > 0.2f){
-			//gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition.y < 0f ? new Vector2(finishPosition.x * -10f, finishPosition.y) : new Vector2(finishPosition.x * 10f, finishPosition.y), Time.deltaTime * 5f);
 
-		//Vector2 rayDirection2D = (Quaternion.Euler (0, 0, i) * transform.up).normalized;
-		//DANGER RaycastHit2D hitinfo=Physics2D.Raycast(transform.position,transform.rotation = (Quaternion.Euler(0f, 0f, rot_z)*transform.up).normalized,3f);
-		gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition, Time.deltaTime * 5f);
+		/*
+		if(Vector2.Distance(gameObject.transform.position, finishPosition) > 0.2f){
+			//DANGER RaycastHit2D hitinfo=Physics2D.Raycast(transform.position,transform.rotation = (Quaternion.Euler(0f, 0f, rot_z)*transform.up).normalized,3f);
+			gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition, Time.deltaTime * 5f);
 
 		} else if(Vector2.Distance(gameObject.transform.position, finishPosition) <= 0.2f){
-			//finishPosition *= 2;
-			//gameObject.transform.position = Vector2.MoveTowards (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y), finishPosition, Time.deltaTime * 5f);
-
-			//finishPosition = new Vector2(gameObject.transform.InverseTransformPoint(gameObject.transform.position).x + 25f, 0f);
-
-			//finishPosition = new Vector2(gameObject.transform.InverseTransformPoint(gameObject.transform.position).x * 10f, gameObject.transform.InverseTransformPoint(gameObject.transform.position).y * 10f);
-
-			/*
-			int posX = 1;
-			if (finishPosition.x < 0) {
-				posX = -1;
-			} else if (finishPosition.x >= 0) {
-				posX = 1;
-			}
-			Vector2 newPos = new Vector2(10f * posX, 0);
-			finishPosition = gameObject.transform.InverseTransformVector(gameObject.transform.position) + new Vector3(newPos.x, newPos.y, 0f);
-			*/
-
-			//finishPosition = gameObject.transform.localPosition * 10f;
-
-			Destroy (gameObject);
+			Destroy (gameObject, 0.2f);
 		}
+		*/
 	}
 	/*
 	void OnMouseUp () {
@@ -75,4 +58,10 @@ public class MoveBullet : MonoBehaviour {
 		GetComponent<Rigidbody2D>().MovePosition(new Vector2(posX, posY) + new Vector2(0.2f,0.2f) * Time.fixedDeltaTime);
 	}
 	*/
+
+	public void OnBecameInvisible()
+	{
+		Destroy(gameObject);
+	}
+
 }

@@ -11,6 +11,7 @@ TagManager:
   - GameState
   - RepairLife
   - ExpandText
+  - WaveNumber
   layers:
   - Default
   - TransparentFX

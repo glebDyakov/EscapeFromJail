@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GoToSettings : MonoBehaviour {
-
+	
 	void OnMouseDown () {
 		SceneManager.LoadScene ("Settings");
 	}

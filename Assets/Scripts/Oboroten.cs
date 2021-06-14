@@ -7,6 +7,9 @@ public class Oboroten : KillZek {
 
 	void CreateZeck(){
 		GameObject randZeck= transform.parent.GetComponent<SpawnZek>().RandomZeck();
+		if(randZeck.name.Contains("Оборотень")){
+			randZeck= transform.parent.GetComponent<SpawnZek>().RandomZeck(true);
+		}
 		GameObject zekprefab=Instantiate (randZeck, new Vector2 (transform.position.x, transform.position.y), Quaternion.identity);
 		zekprefab.transform.parent = transform.parent;
 		int row= gameObject.GetComponent<MoveZek> ().rowOfZek;
@@ -28,10 +31,10 @@ public class Oboroten : KillZek {
 		zekprefab.transform.GetChild (0).GetChild (0).gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = layerRow;
 	}
 
-	public void OnTriggerEnter2D (Collider2D other/*, bool bita=false*/) {
+	public void OnTriggerEnter2D (Collider2D other) {
 		
 
-		if (other.gameObject.tag == "Bullet" /*|| bita*/) {
+		if (other.gameObject.tag == "Bullet" ) {
 
 			Destroy (other.gameObject);
 		
@@ -146,6 +149,6 @@ public class Oboroten : KillZek {
 			}
 			Invoke ("NeverGiveUpZeck", delay);
 		}
-	}
+	} 
 
 }

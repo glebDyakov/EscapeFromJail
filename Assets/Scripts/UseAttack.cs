@@ -1,15 +1,11 @@
-﻿//Анимация наручников
-//anim.Play("O_nar-0");
-
-//Анимация свистка
-//anim.Play("O_svist");
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UseAttack : MonoBehaviour {
-
+	
 	public Text svistCount;
 	public Text naruchnikiCount;
 
@@ -62,9 +58,10 @@ public class UseAttack : MonoBehaviour {
 		}
 	}
 	void ResetPosition(){
+		print("toPosition: " + toPosition.x.ToString() + ", " + toPosition.y.ToString());
 		gameObject.transform.position = startPosition;
 		if ((trapInst.name.Contains ("svist") && PlayerPrefs.GetInt ("CountSvist") > 0) || (trapInst.name.Contains ("naruchniki") && PlayerPrefs.GetInt ("CountNaruchniki") > 0)) {
-			dinamitInstPrefab = Instantiate (trapInst, new Vector2 (-8.75f, -2.35f), Quaternion.identity);
+			dinamitInstPrefab = Instantiate (trapInst, new Vector2 (-6f, -2.35f), Quaternion.identity);
 
 
 
@@ -77,7 +74,7 @@ public class UseAttack : MonoBehaviour {
 						print ("1CountNaruchniki: " + PlayerPrefs.GetInt ("CountNaruchniki"));
 						PlayerPrefs.SetInt ("CountSvist", PlayerPrefs.GetInt ("CountSvist") - 1);
 						svistCount.text = PlayerPrefs.GetInt("CountSvist").ToString();
-
+						//Invoke ("DestroyWeapon", 0.5f);
 					}
 				} else if (dinamitInstPrefab.name.Contains ("naruchniki")) {
 					if (PlayerPrefs.GetInt ("CountNaruchniki") > 0) {
@@ -85,13 +82,17 @@ public class UseAttack : MonoBehaviour {
 
 						anim.Play ("O_nar-1");
 						Rigidbody2D dinamitInstrb = dinamitInstPrefab.GetComponent<Rigidbody2D> ();
-						dinamitInstrb.AddRelativeForce (toPosition * strike, ForceMode2D.Impulse);
+						//dinamitInstPrefab.GetComponent<BoxCollider2D>().enabled = false;
+						
+						//dinamitInstrb.AddRelativeForce (toPosition * strike, ForceMode2D.Impulse);
+						dinamitInstrb.AddRelativeForce (toPosition + (Vector2.zero - new Vector2 (-6f, -2.35f)), ForceMode2D.Impulse);
+
 						//dinamitInstrb.AddRelativeForce (new Vector2(250, 50f), ForceMode2D.Impulse);
 						PlayerPrefs.SetInt ("CountNaruchniki", PlayerPrefs.GetInt ("CountNaruchniki") - 1);
 
 						naruchnikiCount.text = PlayerPrefs.GetInt("CountNaruchniki").ToString();
 
-						Invoke ("DestroyWeapon", 0.5f);
+						//Invoke ("DestroyWeapon", 0.5f);
 					}
 				}
 			}
@@ -105,17 +106,35 @@ public class UseAttack : MonoBehaviour {
 	}
 	void DestroyWeapon(){
 		if (dinamitInstPrefab) {
-			Destroy (dinamitInstPrefab, 0.5f);
+			if(dinamitInstPrefab.name.Contains ("naruchniki")){
+				//dinamitInstPrefab.GetComponent<BoxCollider2D>().enabled = true;
+				dinamitInstPrefab.GetComponent<BoxCollider2D>().enabled = false;
+			}
+			Destroy (dinamitInstPrefab, 0.2f);
 		}
-		}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
+
+	void FixedUpdate(){
+		/*if(dinamitInstPrefab != null){
+			if(toPosition.x < dinamitInstPrefab.GetComponent<Rigidbody2D>().position.x){
+				DestroyWeapon();
+			}	
+		}*/
+		if(dinamitInstPrefab && !GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(Camera.main),dinamitInstPrefab.GetComponent<BoxCollider2D>().bounds)){
+			DestroyWeapon();
+		}
+	}
+	
+	
+		
+		
+
+
 	void Start(){
+		naruchnikiCount.text="";
 		PlayerPrefs.SetInt ("CountSvist", 5);
 		PlayerPrefs.SetInt ("CountNaruchniki", 5);
+		PlayerPrefs.SetInt ("CountShootgunAmmo", 5);
 
 		/*
 		//anim = GetComponent<Animator>();
@@ -204,6 +223,17 @@ public class UseAttack : MonoBehaviour {
 		}
 
 	}
+	/*static void buyTrap(string trap, int dmg){
+	if(PlayerPrefs.GetInt ("CountNaruchniki") < BuyProduct.maxCount){
+		if(trap=="naruchniki"){
+			PlayerPrefs.SetInt ("CountNaruchniki", PlayerPrefs.GetInt ("CountNaruchniki") + 1);
+			naruch.text = PlayerPrefs.GetInt ("CountNaruchniki").ToString ();
+		}else if(trap=="svist"){
+			PlayerPrefs.SetInt ("CountNaruchniki", PlayerPrefs.GetInt ("CountNaruchniki") + 1);
+			svist.text = PlayerPrefs.GetInt ("CountNaruchniki").ToString ();
+		}
+	}
+}*/
 	void Awake(){
 		//anim = GetComponent<Animator>();
 	}

@@ -104,6 +104,7 @@ public class MoveZek : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
+
 		/*
 		if (other.gameObject.name == "flag" || other.gameObject.name == "flag(Clone)") {
 			flagStop = true;
@@ -123,10 +124,19 @@ public class MoveZek : MonoBehaviour {
 			naruchnikiStop = true;
 			print ("naruchnikiMeAttack");
 			//Анимация с наручниками у зека
-		}*/  if (other.gameObject.name.Contains("Deadline")) {
+		}*/
+		
+		if (other.gameObject.name.Contains("Deadline")) {
 			PlayerPrefs.SetInt ("TextCoinsAll", PlayerPrefs.GetInt ("TextCoinsAll") + PlayerPrefs.GetInt ("TextCoinsInLevel"));
 			gameState.GetComponent<GameState>().repairLifeBar.SetActive (true);
+		} else if (other.gameObject.name.Contains("svist")) {
+			GetComponent<AudioSource>().clip = clips[0];
+			GetComponent<AudioSource> ().Play();
+		} else if (other.gameObject.name.Contains("naruchniki")) {
+			GetComponent<AudioSource>().clip = clips[1];
+			GetComponent<AudioSource> ().Play();
 		}
+
 	}
 	void OnTriggerExit2D (Collider2D other) {
 		

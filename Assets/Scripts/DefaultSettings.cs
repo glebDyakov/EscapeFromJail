@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class DefaultSettings : MonoBehaviour {
@@ -7,6 +8,12 @@ public class DefaultSettings : MonoBehaviour {
 	void Start () {
 		if (!PlayerPrefs.HasKey ("AudioOn")) {
 			PlayerPrefs.SetString ("AudioOn", "Yes");
+		}
+		if (!PlayerPrefs.HasKey ("GameMode")) {
+			PlayerPrefs.SetString ("GameMode", "Survival");
+		}
+		if (!PlayerPrefs.HasKey ("CountOfChargedBatteries")) {
+			PlayerPrefs.SetInt ("CountOfChargedBatteries", 0);
 		}
 		if (!PlayerPrefs.HasKey ("CountAmmo")) {
 			PlayerPrefs.SetInt ("CountAmmo", 2);
@@ -71,6 +78,9 @@ public class DefaultSettings : MonoBehaviour {
 		}
 		if (!PlayerPrefs.HasKey ("ElixirsCount")) {
 			PlayerPrefs.SetInt ("ElixirsCount", 0);
+		}
+		if (!PlayerPrefs.HasKey ("LastTimestampPlay")) {
+			PlayerPrefs.SetString ("LastTimestampPlay", DateTime.Now.ToString("dd:MM:yyyy|HH:mm:ss"));
 		}
 
 		PlayerPrefs.SetInt ("TextCoinsInLevel", 0);		
