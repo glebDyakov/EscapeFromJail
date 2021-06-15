@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 
 public class KillZek : MonoBehaviour {
-	//public Text textCoins;
-	//GameObject textCoins = GameObject.FindGameObjectWithTag("TextCoinsTag");
 	AudioSource audioShoot;
 	public Text waveNumber;
 	public float healthBarScale;
@@ -39,7 +37,6 @@ public class KillZek : MonoBehaviour {
 		waveNumber = GameObject.FindGameObjectWithTag("WaveNumber").GetComponent<Text>();
 		hp = fullHP;
 		healthBar = transform.GetChild (0).GetChild (0).gameObject;
-		//startHealthBar=healthBar.transform.localScale.x;
 		enemiesLeftBar= transform.GetChild (0).GetChild (0).gameObject;
 		healthBarScale = healthBar.transform.localScale.x;
 		healthBarScaleUnit = healthBarScale / hp;
@@ -57,12 +54,6 @@ public class KillZek : MonoBehaviour {
 
 	public void PreDie (float hpDamage = 20f){
 		
-		/*if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
-			AudioSource audioShoot = GetComponent<AudioSource> ();
-			audioShoot.clip = shoot;
-			audioShoot.Play();
-		}*/
-
 		if (hp > 0f) {
 			if(hpDamage>0){
 				if (PlayerPrefs.GetString ("AudioOn") == "Yes") {
@@ -82,11 +73,6 @@ public class KillZek : MonoBehaviour {
 
 			if(!isDie){
 				isTrap = false;
-				/*if(enemiesLeftBar.transform.localScale.x + 16f >= enemiesLeftBarScale - 16f / 5f && !isDie){
-					enemiesLeftBar.transform.localScale = new Vector2 (enemiesLeftBar.transform.localScale.x - 16f / 5f, enemiesLeftBar.transform.localScale.y);
-				}*/
-				//if(hpDamage>0){
-				//healthBar.transform.localScale = new Vector2 (startHealthBar.transform.localScale.x, healthBar.transform.localScale.y);
 				healthBar.transform.localScale = new Vector2 (healthBarScaleUnit * hp , healthBar.transform.localScale.y);
 				if(healthBar.transform.localScale.x >= 0.9174312f){
 					hp=fullHP;
@@ -113,10 +99,7 @@ public class KillZek : MonoBehaviour {
 					GameObject.Find ("All Coins").GetComponent<SpawnCoin> ().RulkaCoin (gameObject);
 				}
 			}
-			//Destroy (this.gameObject, 1f);
-
-
-			//bool allZeksKilled = RedrawBarOfEnemiesLeft.Redraw ();
+			
 			if(allZeksKilled){
 				if(SpawnZek.Wave==0){
 					//История
@@ -135,58 +118,19 @@ public class KillZek : MonoBehaviour {
 			}
 
 		}
-
-		//print("уничтожен из за нажатия мыши");
-		
-		//Destroy (this.gameObject, 0.2f);
 		textCointCount += 50;
-		//AddCoins.Add (textCointCount);
-		//gameObject.SendMessage("Add", textCointCount);
-		//addCoins.Add(textCointCount);
-		//textCoins.text = "Coins: " + textCointCount.ToString();
-
-
 	}
 
-	void OnMouseDown(){
-		
-	}
-	/*
-	void OnTriggerEnter2D (Collider2D other) {
-		//if (other.gameObject.tag == "Bullet") {
-			print("уничтожен");
-			Destroy (this.gameObject, 1f);
-		//}
-	}
-	void OnTriggerStay2D(Collider2D other)
-	{
-		print("уничтожен");
-		Destroy (this.gameObject, 1f);
-	}
-	*/
+	
 
-	public void OnTriggerEnter2D (Collider2D other/*, bool bita=false*/) {
-		/*
-		if (other.gameObject.name.Contains("dinamit")) {
-			dinamitDamage = true;
-			//Анимация взрыва динамита
-			print ("dinamitMeAttack");
-			//hp -= 60f;
-			PreDie ();
-		} else if(other.gameObject.name.Contains("ball")) {
-			ballDamage = true;
-			print ("ballMeAttack");
-			//hp -= 100f;
-			PreDie ();
-		} 
-		*/
+	public void OnTriggerEnter2D (Collider2D other) {
 
-		if (other.gameObject.tag == "Bullet" /*|| bita*/) {
-			/*if(!bita){*/
+		if (other.gameObject.tag == "Bullet") {
 			Destroy (other.gameObject);
-			//}
 			transform.GetChild (0).gameObject.SetActive (true);
-			//DANGER Invoke ("ActiveHealth", 2);
+
+			//Invoke ("ActiveHealth", 2);
+
 			if (ActionsForButtons.selectedWeapon.Contains ("Pistol")) {
 				PreDie ();
 			} else if (ActionsForButtons.selectedWeapon.Contains ("Shootgun")) {
@@ -236,7 +180,6 @@ public class KillZek : MonoBehaviour {
 
 			anima.Play("Z_A");
 			GetComponent<MoveZek> ().walk = false;
-			//PreDie ();
 		}
 		else if (other.name.Contains ("naruchniki")) {
 			GetComponent<MoveZek> ().walk = false;
@@ -343,32 +286,9 @@ public class KillZek : MonoBehaviour {
 			}
 		}else if(other.gameObject.name.Contains("HEAL") && other.transform.parent.GetComponent<KillZek>().minWave==4
 			&& minWave!=4 ){
-			
-			//print ("Leader heal");
-			
-			/*if (other.transform.parent.name.Contains ("оборотень")) {
-				gameObject.GetComponent<Oboroten> ().PreDie (-5);
-			} else {*/
 				gameObject.GetComponent<KillZek> ().PreDie (-1);
-			//}
 			}
 	}
-
-/*void OnTriggerExit2D (Collider2D other) {
-		if (other.gameObject.name == "dinamit" || other.gameObject.name == "dinamit(Clone)") {
-			dinamitDamage = false;
-			print ("dinamitMeAttack");
-
-		} else if (other.gameObject.name == "ball" || other.gameObject.name == "ball(Clone)") {
-			ballDamage = false;
-
-			print ("ballMeAttack");
-		} else if (other.gameObject.tag.Contains ("Player") && GetComponent<MoveZek>().rowOfZek != 2) {
-			//меняем флаг на бег разрешен
-			GetComponent<MoveZek>().walk=true;
-			anima.Play("Z_R");
-		}
-	}*/
 
 	void ActiveHealth(){
 		transform.GetChild (0).gameObject.SetActive (false);
@@ -454,20 +374,12 @@ public class KillZek : MonoBehaviour {
 					cop.OnTriggerEnter2D(gameObject.GetComponent<Collider2D>());	
 				}
 
-				//EnemyCop.GetComponent<Animator>().Play("O_dub-1");
-				//cop.healthBar.transform.localScale = new Vector2 (cop.healthBar.transform.localScale.x - cop.healthBarScale / 3f, cop.healthBar.transform.localScale.y);
 			} else if(PlayerPrefs.GetInt("ShieldEnabled") == 0){
 				cop.healthBar.transform.localScale = new Vector2 (cop.healthBar.transform.localScale.x - damage, cop.healthBar.transform.localScale.y);
 				cop.OnTriggerEnter2D(gameObject.GetComponent<Collider2D>());
-				//EnemyCop.GetComponent<Animator>().Play("O_dub-1");
-				//cop.healthBar.transform.localScale = new Vector2 (cop.healthBar.transform.localScale.x - cop.healthBarScale / 3f, cop.healthBar.transform.localScale.y);
 			}
 
 		}
-		/*else if(!EnemyCop){
-			GetComponent<MoveZek>().walk=true;
-			anima.Play("Z_R");
-		}*/
 	}
 	void NeverGiveUpZeck(){
 		GetComponent<MoveZek>().walk=true;
