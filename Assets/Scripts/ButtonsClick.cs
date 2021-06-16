@@ -218,14 +218,16 @@ public class ButtonsClick : MonoBehaviour {
 		if(sceneName.Contains("Shop")){
 			SceneManager.LoadScene("Shop");
 		} else if(sceneName.Contains("Main")){
-
-			string lastTimestampPlay = DateTime.Now.ToString("dd:MM:yyyy|HH:mm:ss");
-        	PlayerPrefs.SetString("LastTimestampPlay", lastTimestampPlay);
-			PlayerPrefs.SetInt ("CountOfChargedBatteries", PlayerPrefs.GetInt ("CountOfChargedBatteries") - 1);
-			gameState.sceneName = "Main";
-			DontDestroyOnLoad(gameState);
-			SceneManager.LoadScene("Intermediate");
-			
+			if(PlayerPrefs.GetInt("CountOfChargedBatteries") > 0){
+				string lastTimestampPlay = DateTime.Now.ToString("dd:MM:yyyy|HH:mm:ss");
+				PlayerPrefs.SetString("LastTimestampPlay", lastTimestampPlay);
+				PlayerPrefs.SetInt ("CountOfChargedBatteries", PlayerPrefs.GetInt ("CountOfChargedBatteries") - 1);
+				gameState.sceneName = "Main";
+				DontDestroyOnLoad(gameState);
+				SceneManager.LoadScene("Intermediate");
+			} else if(PlayerPrefs.GetInt("CountOfChargedBatteries") < 0){
+				GetComponent<AudioSource>().Play();
+			}
 		} else if(sceneName.Contains("Level1")){
 			if(PlayerPrefs.GetInt("CountOfChargedBatteries") > 0){
 				PlayerPrefs.SetInt ("CountOfChargedBatteries", PlayerPrefs.GetInt ("CountOfChargedBatteries") - 1);
@@ -269,6 +271,7 @@ public class ButtonsClick : MonoBehaviour {
 	public void PlayVideoForDoubleCoins(){
 		//играем видео при нажатии кнопки двойные монеты
 		print("играем видео при нажатии кнопки двойные монеты");
+		Camera.main.gameObject.GetComponent<MobAdsRewarded>().enabled = true;
 	}
 
 	public void RespawnCop(){

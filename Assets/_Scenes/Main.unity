@@ -986,7 +986,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: eb82de4f9ed579e499a11fee9e6b9619, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 454eb09f225a8f64b898ce4ab3660462, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4212,6 +4212,7 @@ MonoBehaviour:
   - {fileID: 804417146}
   repairLifeBar: {fileID: 1848935348}
   expandText: {fileID: 0}
+  sceneName: 
 --- !u!4 &1220821755
 Transform:
   m_ObjectHideFlags: 0
@@ -4871,6 +4872,8 @@ GameObject:
   - component: {fileID: 1370796512}
   - component: {fileID: 1370796510}
   - component: {fileID: 1370796509}
+  - component: {fileID: 1370796511}
+  - component: {fileID: 1370796514}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4894,6 +4897,18 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370796508}
   m_Enabled: 1
+--- !u!114 &1370796511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370796508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00f6d37477ff164ca7e334dbf1a15b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &1370796512
 Camera:
   m_ObjectHideFlags: 0
@@ -4951,6 +4966,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1370796514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370796508}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52584064d38a9f42ab2b11258f67fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cointCount: {fileID: 1392575702}
 --- !u!1 &1386639411
 GameObject:
   m_ObjectHideFlags: 0
@@ -8149,6 +8177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edeff6e4bf43fb4a88d02acde984c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundLevel: {fileID: 1782981024}
   doubleCoinsButton: {fileID: 1010611213}
   windowLoose: {fileID: 931932936}
   repairButton: {fileID: 1481061988}

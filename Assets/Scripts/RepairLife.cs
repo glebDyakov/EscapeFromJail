@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class RepairLife : MonoBehaviour {
 
+	public GameObject backgroundLevel;
 	public GameObject doubleCoinsButton;
 	public GameObject windowLoose;
 	public Button repairButton;
@@ -38,6 +39,7 @@ public class RepairLife : MonoBehaviour {
 			SetCountOfAmmo.countAmmo = 0;
 			gameObject.SetActive(false);
 			windowLoose.SetActive(true);
+			Destroy(backgroundLevel.GetComponent<BoxCollider2D>());
 			
 			for(int child = 0; child <= buttonsClick.gameState.allZeks.transform.childCount - 1; child++){
 				buttonsClick.gameState.allZeks.transform.GetChild(child).gameObject.GetComponent<MoveZek>().walk = false;

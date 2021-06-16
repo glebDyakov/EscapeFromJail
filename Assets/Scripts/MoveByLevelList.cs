@@ -6,6 +6,7 @@ public class MoveByLevelList : MonoBehaviour {
 
 	public Vector3 rastoyanie;
 	public GameObject firstLevel;
+	public GameObject lastLevel;
 	public int counter = 0;
 	Vector3 mousePos;
 	public UnityEngine.UI.Text coins;
@@ -57,7 +58,10 @@ public class MoveByLevelList : MonoBehaviour {
 				*/
 				//gameObject.transform.position -= rastoyanie * 0.02f * sign;
 				//gameObject.transform.position -= rastoyanie * 0.02f;
-				gameObject.transform.position -= Vector3.right * 0.5f * sign;
+				
+				if(((firstLevel.transform.position - Vector3.right * 0.5f * sign).x <= Camera.main.transform.position.x) && ((lastLevel.transform.position - Vector3.right * 0.5f * sign).x >= Camera.main.transform.position.x)){
+					gameObject.transform.position -= Vector3.right * 0.5f * sign;
+				}
 
 				//gameObject.transform.position = new Vector2 (gameObject.transform.position.x + 10f, gameObject.transform.position.y); 
 			}

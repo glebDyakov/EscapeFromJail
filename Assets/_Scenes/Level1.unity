@@ -986,7 +986,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: eb82de4f9ed579e499a11fee9e6b9619, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 454eb09f225a8f64b898ce4ab3660462, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4212,6 +4212,7 @@ MonoBehaviour:
   - {fileID: 804417146}
   repairLifeBar: {fileID: 1848935348}
   expandText: {fileID: 0}
+  sceneName: 
 --- !u!4 &1220821755
 Transform:
   m_ObjectHideFlags: 0
@@ -8149,6 +8150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edeff6e4bf43fb4a88d02acde984c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundLevel: {fileID: 0}
   doubleCoinsButton: {fileID: 1010611213}
   windowLoose: {fileID: 931932936}
   repairButton: {fileID: 1481061988}

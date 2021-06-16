@@ -40,6 +40,8 @@
      <Compile Include="Assets\Scripts\ActionForWeapons.cs" />
      <Compile Include="Assets\Scripts\ActionsForButtons.cs" />
      <Compile Include="Assets\Scripts\AddCoins.cs" />
+     <Compile Include="Assets\Scripts\AdmobScripts\MobAdsInitialize.cs" />
+     <Compile Include="Assets\Scripts\AdmobScripts\MobAdsRewarded.cs" />
      <Compile Include="Assets\Scripts\ButtonsClick.cs" />
      <Compile Include="Assets\Scripts\BuyElixir.cs" />
      <Compile Include="Assets\Scripts\BuyProduct.cs" />
@@ -85,6 +87,8 @@
      <Compile Include="Assets\Scripts\UseAttack.cs" />
      <Compile Include="Assets\Scripts\UseTrap.cs" />
      <None Include="Assets\Sprites\анимация.txt" />
+     <None Include="Assets\GoogleMobileAds\link.xml" />
+     <None Include="Assets\GoogleMobileAds\GoogleMobileAds_version-6.0.0_manifest.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.16f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -261,6 +265,18 @@
     </Reference>
     <Reference Include="UnityEditor">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.16f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Common">
+        <HintPath>C:/unityProjects/EscapeFromJail/Assets/GoogleMobileAds/GoogleMobileAds.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Core">
+        <HintPath>C:/unityProjects/EscapeFromJail/Assets/GoogleMobileAds/GoogleMobileAds.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds">
+        <HintPath>C:/unityProjects/EscapeFromJail/Assets/GoogleMobileAds/GoogleMobileAds.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Unity">
+        <HintPath>C:/unityProjects/EscapeFromJail/Assets/GoogleMobileAds/GoogleMobileAds.Unity.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
         <HintPath>C:/unityProjects/EscapeFromJail/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
@@ -642,6 +658,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="GoogleMobileAds.Editor.csproj">
+      <Project>{1f23609c-7882-db95-b240-e7f627862362}</Project>
+      <Name>GoogleMobileAds.Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
